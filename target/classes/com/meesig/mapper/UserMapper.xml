@@ -28,9 +28,21 @@
         	select user_id,user_login_id,user_name,user_email,user_b_date,user_gender,user_join_date,user_status,user_point,user_grade,user_role,user_location,user_enabled from users order by user_id DESC LIMIT #{start}, #{count}
         </select>
         
+         <select id="searchUserList" resultType="user">
+        	<![CDATA[select * from users where ${type} like '%${query}%' limit 100]]>
+        </select>
+        
+        
         <insert id="createUserInAdminPage">
         	<![CDATA[insert into USERS (user_login_id, user_crc_id, user_password, user_name, user_email, user_gender, user_role, user_location)
         				values (#{user_login_id}, #{user_crc_id}, #{user_password}, #{user_name}, #{user_email}, #{user_gender}, #{user_role}, #{user_location})]]>
         </insert>
         
+        <select id="findUserById" resultType="user">
+        	select user_id,user_login_id,user_name,user_email,user_b_date,user_gender,user_join_date,user_exit_date,user_status,user_point,user_grade,user_role,user_location,user_enabled from users where user_id = #{user_id}
+        </select>
+        
+        <update id="updateUserInfoById">
+        	update users set <if test="!user_password.equals('')"> user_password = #{user_password}, </if> user_name = #{user_name}, user_email = #{user_email}, <if test="user_gender!=null">user_gender =  #{user_gender},</if> user_role =#{user_role}, user_location = #{user_location} ,user_status = #{user_status}, user_point = #{user_point}, user_enabled = #{user_enabled} where user_id = ${user_id} 
+        </update>
 </mapper>

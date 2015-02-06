@@ -3,6 +3,7 @@ package com.meesig.model;
 import java.util.Date;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.apache.ibatis.type.Alias;
@@ -12,7 +13,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Alias("user")
 public class User {
 	private int 	user_id;
-	@NotEmpty	@Size(min=4, max=20)
+	@NotEmpty	@Size(min=4, max=20) @Pattern(regexp = "^[A-Za-z]{1}[A-Za-z0-9]{4,20}$")
 	private String 	user_login_id;
 	private int 	user_crc_id;
 
@@ -108,11 +109,7 @@ public class User {
 		this.user_b_date = user_b_date;
 	}
 	public String getUser_gender() {
-		if(this.user_gender.equals("m")){
-			return "남자";
-		}else{
-			return "여자";
-		}
+		return this.user_gender;
 	}
 	public void setUser_gender(String user_gender) {
 		this.user_gender = user_gender;

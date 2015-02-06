@@ -10,6 +10,8 @@
 
 		<div class="container-fluid">
 		
+			<c:set var="celNum" value="10,20,30,50,100"/>
+			
 			<!-- Page Heading -->
 			<div class="row">
 			
@@ -21,19 +23,48 @@
 				</div>
 			</div>
 			
+		    <c:if test="${not empty msg}">
+                <div class="row">
+                 	<div class="col-lg-12">
+						<div class="alert alert alert-danger alert-dismissable">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					    	<strong>${msg}</strong>
+						</div>
+					</div>
+                </div>
+            </c:if>
+			
 			<!-- User List table -->
 			<div class="row">
-				<div class="col-lg-12">
+				<div class="col-lg-6">
+					
+					<div class="fl-left mg-bottom">
+						<form class="form-inline" role="form"
+							<label>출력개수</label>
+							<select class="form-control" name="count">
+									<c:forEach var="num" items="${celNum}">
+										<c:choose>
+								  			<c:when test="${num eq paging.pageSize}"><option value="${num}"  selected="selected">${num}</option></c:when>
+								  			<c:otherwise><option value="${num}">${num}</option></c:otherwise>
+								  		</c:choose>
+								  		
+								  	</c:forEach>
+							</select>
+							<button class="btn btn-default" type="submit">적용</button>
+						</form>
+					</div>
+				</div>
+				<div class="col-lg-6">
 					<div class="fl-right mg-bottom">
-						<form class="form-inline" role="form">
+						<form class="form-inline" role="form" action="/user/list/search" method="get">
 							<div class="form-group">
-								<select class="form-control">
-									<option>이름</option>
-									<option>ID</option>
-									<option>이메일</option>
+								<select class="form-control" name="type">
+									<option value="name">이름</option>
+									<option value="id">ID</option>
+									<option value="email">이메일</option>
 								</select>
-								<input type="text" class="form-control" placeholder="Search">
-								<button class="btn btn-default" type="button">사용자 검색</button>
+								<input type="text" class="form-control" name="query" placeholder="Search">
+								<button class="btn btn-default" type="submit">사용자 검색</button>
 							</div>
 						</form>
 					</div>
@@ -116,7 +147,9 @@
 
 
 
-
+<content tag="local_script">
+<!-- 	<script src="/js/table.js"></script>	-->
+</content>
 
 
 </body>

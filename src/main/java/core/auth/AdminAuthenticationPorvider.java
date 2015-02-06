@@ -29,7 +29,7 @@ public class AdminAuthenticationPorvider implements AuthenticationProvider {
         String user_id = (String)authentication.getPrincipal();
         String user_pw = (String)authentication.getCredentials();
         
-        User adminUser = userManager.selectUserByIdAndCrc(new User(user_id, user_pw));
+        User adminUser = userManager.selectUserByLoginIdAndCrc(new User(user_id, user_pw));
         
         if( userManager.isMatchPassword(adminUser, user_pw) ) {
             List<GrantedAuthority> roles = new ArrayList<GrantedAuthority>();

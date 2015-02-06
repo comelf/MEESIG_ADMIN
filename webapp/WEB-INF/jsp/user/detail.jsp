@@ -11,15 +11,14 @@
             <div class="container-fluid">
 
                 <!-- Page Heading -->
-				<div class="row">
+                <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header"> 회원추가 <small>User</small></h1>
+                        <h1 class="page-header"> 회원 편집  <small>User</small></h1>
                         <ol class="breadcrumb">
-                            <li class="active">새로운 회원을 추가합니다.</li>
+                            <li class="active"> 회원 정보를 수정합니다.</li>
                         </ol>
                     </div>
                 </div>
-                
                 
                 <c:if test="${not empty msg}">
 	                <div class="row">
@@ -33,11 +32,14 @@
                 </c:if>
                 
                 <div class="row">
-                	<form:form modelAttribute="user" role="form" action="/user/create" method="post">
+                	<form:form modelAttribute="user" role="form" action="/user/edit" method="post">
                 		<div class="col-lg-5">
+                			
+                				<form:input path="user_id" cssClass="form-control display-none" readonly="true"/>
+                			
 							<div class="form-group">
 							    <label>ID</label>
-							    <form:input path="user_login_id" type="text" cssClass="form-control" placeholder="User ID"/>
+							    <form:input path="user_login_id" type="text" cssClass="form-control" placeholder="User ID" readonly="true"/>
 							    <form:errors path="user_login_id" cssClass="error-msg" />
 							</div>
 							<div class="form-group">
@@ -55,6 +57,27 @@
 							    <form:input path="user_email" type="email" cssClass="form-control" placeholder="E-mail" />
 							    <form:errors path="user_email" cssClass="error-msg" />
 							</div>
+							<div class="form-group">
+							    <label>생년월일</label>
+							    <form:input path="user_b_date" type="text" cssClass="form-control" placeholder="Disabled" disabled="true" />
+							</div>
+							<div class="form-group">
+							    <label>가입일</label>
+							    <form:input path="user_join_date" type="text" cssClass="form-control" placeholder="Disabled" disabled="true" />
+							</div>
+							<div class="form-group">
+							    <label>탈퇴여부</label>
+							    <form:select path="user_enabled" cssClass="form-control">
+							    	<form:option value="0">아니오</form:option>
+							    	<form:option value="1">예</form:option>
+							    </form:select>
+							  </div>
+							<div class="form-group">
+							    <label>탈퇴일</label>
+							    <form:input path="user_exit_date" type="text" cssClass="form-control" placeholder="" disabled="true" />
+							</div>
+							
+							
 						</div>
 						<div class="col-lg-5">
 						  	<div class="form-group">
@@ -68,30 +91,45 @@
 								<form:errors path="user_gender" cssClass="error-msg" />
 						  	</div>
 							  <div class="form-group">
-							    <label for="exampleInputPassword1">등급</label>
+							    <label>등급</label>
 							    <input type="text" class="form-control" id="disabledInput" placeholder="Disabled" disabled>
 							  </div>
 							  <div class="form-group">
-							    <label for="exampleInputPassword1">권한</label>
+							    <label>권한</label>
 							    <form:select path="user_role" cssClass="form-control">
 							    	<form:option value="USERS">USERS</form:option>
 							    	<form:option value="MANAGER">MANAGER</form:option>
 							    	<form:option value="COWORKER">COWORKER</form:option>
+							    	<form:option value="ADMIN">ADMIN</form:option>
 							    </form:select>
 							  </div>
 							  <div class="form-group">
-							    <label for="exampleInputPassword1">지역</label>
+							    <label">지역</label>
 							    <form:input path="user_location" type="text" cssClass="form-control" placeholder="Location"/>
 							    <form:errors path="user_location" cssClass="error-msg" />
 							  </div>
-						  	<button type="submit" class="btn btn-danger">Save</button>
+							  <div class="form-group">
+							    <label>상태</label>
+							    <form:select path="user_status" cssClass="form-control">
+							    	<form:option value="0">0</form:option>
+							    	<form:option value="1">1</form:option>
+							    	<form:option value="2">2</form:option>
+							    	<form:option value="3">3</form:option>
+							    </form:select>
+							  </div>
+							  <div class="form-group">
+							    	<label">포인트</label>
+							    	<form:input path="user_point" type="text" cssClass="form-control" placeholder="0"/>
+							    	<form:errors path="user_point" cssClass="error-msg" />
+							  </div>
+						  	<button type="submit" class="btn btn-danger">수정</button>
 						</div>
 					</form:form>
                 	
                 </div>
                 <div class="row">
                 	<div class="col-lg-12">
-                		<div class="block-400">
+                		<div class="block-200">
                 		</div>
                 	</div>
                 </div>

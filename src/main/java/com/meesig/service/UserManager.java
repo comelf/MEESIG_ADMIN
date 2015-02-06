@@ -32,6 +32,8 @@ public class UserManager {
 	
 	private static final Logger log = LoggerFactory
 			.getLogger(UserManager.class);
+
+	private static final int SQL_SUCSSES = 1;
 	
 	public void createUser(User user, String role) {
 		user.setUser_crc_id( crc.getCode(user.getUser_login_id()));
@@ -44,7 +46,7 @@ public class UserManager {
 		return sqlSession.selectOne("UserMapper.selectOne");
 	}
 
-	public User selectUserByIdAndCrc(User user) {
+	public User selectUserByLoginIdAndCrc(User user) {
 		user.setUser_crc_id(userIdToCrc(user.getUser_login_id()));
 		return sqlSession.selectOne("UserMapper.selectOneUserByIdAndCrc", user);
 	}
@@ -80,7 +82,7 @@ public class UserManager {
 	}
 
 	public boolean isExistentUser(User user) {
-		User exist = selectUserByIdAndCrc(user);
+		User exist = selectUserByLoginIdAndCrc(user);
 		if(exist!=null){
 			return true;
 		}else{
@@ -91,11 +93,49 @@ public class UserManager {
 	public void createUserInAdminPage(User user) {
 		user.setUser_crc_id( crc.getCode(user.getUser_login_id()));
 		user.setUser_password(phPass.HashPassword(user.getUser_password()));
+		
 		sqlSession.insert("UserMapper.createUserInAdminPage", user);
 		
 	}
 
 	public int getTotalUser() {
 		return total;
+	}
+
+	public List<User> searchUserList(String type, String query) {
+		Map<String, Object> queryMap = new HashMap<String, Object>();
+		
+		switch (type) {
+			case "name":
+				queryMap.put("type", "user_name");
+				break;
+			case "id":
+				queryMap.put("type", "user_login_id");
+				break;
+			case "email":
+				queryMap.put("type", "user_email");
+				break;
+			default:
+				return null;
+		}
+		queryMap.put("query", query);
+		
+		return sqlSession.selectList("UserMapper.searchUserList", queryMap );
+	}
+
+	public User findUserById(int user_id) {
+		return sqlSession.selectOne("UserMapper.findUserById", user_id);
+	}
+
+	public boolean updateUserInfo(User user) {
+		
+		if(!user.getUser_password().equals("")){
+			user.setUser_password(phPass.HashPassword(user.getUser_password()));
+		}
+
+		if(sqlSession.update("UserMapper.updateUserInfoById", user) == SQL_SUCSSES){
+			return true;
+		}
+		return false;
 	}
 }

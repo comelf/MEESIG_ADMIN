@@ -103,12 +103,10 @@ body {
 .nav_menu > li {
     padding: 10px;
 }
-
 .nav_logo {
     float: left;
     padding: 10px;
 }
-
 .nav_menu {
     float: right;
 }

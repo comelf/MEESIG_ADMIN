@@ -28,3 +28,6 @@
 span.error-msg {
 	color: #d9534f;
 }
+input.display-none {
+	display: none;
+}

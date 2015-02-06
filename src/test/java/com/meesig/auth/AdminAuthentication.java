@@ -62,7 +62,7 @@ public class AdminAuthentication {
 		String user_login_id = "loginId";
 		String user_password = "pass";
 		
-		User user = userManager.selectUserByIdAndCrc(new User(user_login_id));
+		User user = userManager.selectUserByLoginIdAndCrc(new User(user_login_id));
 		Boolean isMatch = userManager.isMatchPassword(user, user_password);
 		assertThat(isMatch, is(false));
 	}
@@ -72,7 +72,7 @@ public class AdminAuthentication {
 		String user_login_id = "tester1525";
 		String user_password = "password!";
 		
-		User user = userManager.selectUserByIdAndCrc(new User(user_login_id));
+		User user = userManager.selectUserByLoginIdAndCrc(new User(user_login_id));
 		Boolean isMatch = userManager.isMatchPassword(user, user_password);
 		assertThat(isMatch, is(true));
 	}
@@ -80,7 +80,7 @@ public class AdminAuthentication {
 	@Test
 	public void userSelectTest() {
 		User loginUser = new User("tester1525", "password!");
-		User DBUser = userManager.selectUserByIdAndCrc(loginUser);
+		User DBUser = userManager.selectUserByLoginIdAndCrc(loginUser);
 		assertThat(loginUser.getUser_login_id(), is(DBUser.getUser_login_id()));
 	}
 	
