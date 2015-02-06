@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+	<context:component-scan base-package="core.config" />
+	<!--<context:property-placeholder location="/WEB-INF/security-context.xml" />-->
+
+	<mvc:annotation-driven />
+
+	<mvc:resources location="/WEB-INF/images/" mapping="/images/**" />
+	<mvc:resources location="/WEB-INF/css/" mapping="/css/**/" />
+	<mvc:resources location="/WEB-INF/js/" mapping="/js/**" />
+	<mvc:resources location="/WEB-INF/fonts/" mapping="/fonts/**" />
+
+
+	<bean id="viewResolver"
+		  class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		  p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" p:order="2"/>
+
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver"
+		  p:order="1" />
+
+	<bean name="excelFile" class="core.util.ExcelFileView" />
+
+	<context:property-placeholder location="classpath*:application-properties.xml" />
+
+	<!--Database & Mybatis -->
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean"
+		  p:jndiName="jdbc/database" p:resourceRef="true"/>
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
+			p:dataSource-ref="dataSource" p:configLocation="classpath:mybatis-config.xml"/>
+
+	<bean id="sqlSession" name="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+
+	<bean id="transactionManager"
+		  class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		  p:dataSource-ref="dataSource" />
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+</beans>

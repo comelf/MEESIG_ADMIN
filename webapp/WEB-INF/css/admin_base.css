@@ -1,0 +1,30 @@
+.center {
+     float: none;
+     margin-left: auto;
+     margin-right: auto;
+     text-align: center;
+}
+.fl-right {
+	 float: right;
+}
+.mg-bottom {
+	margin-bottom: 20px;
+}
+.table > thead > tr > th {
+	text-align: center;
+}
+.table > tbody > tr > td {
+	text-align: center;
+}
+.block-400 {
+	height: 400px;
+}
+.block-200 {
+	height: 200px;
+}
+.form-block {
+	padding: 7px;
+}
+span.error-msg {
+	color: #d9534f;
+}

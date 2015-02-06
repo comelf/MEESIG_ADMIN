@@ -1,0 +1,5 @@
+.idea*
+*.iml
+.settings*
+INIpay50*
+src/test/java/bw/*
