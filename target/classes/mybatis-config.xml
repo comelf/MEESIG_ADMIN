@@ -9,5 +9,6 @@
 
  	<mappers>
 		<mapper resource="com/meesig/mapper/UserMapper.xml" />
+		<mapper resource="com/meesig/mapper/ItemMapper.xml" />
 	</mappers>
 </configuration>

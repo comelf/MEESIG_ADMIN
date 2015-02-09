@@ -14,8 +14,8 @@ import core.auth.AdminDetails;
 
 @Controller
 @RequestMapping("admin")
-public class AdminLoginController {
-    private static final Logger LOG = LoggerFactory.getLogger(AdminLoginController.class);
+public class LoginController {
+    private static final Logger LOG = LoggerFactory.getLogger(LoginController.class);
 
     @RequestMapping("/login")
     public String adminLogin(@RequestParam(defaultValue="0", required=false) int login_error, Model model) {

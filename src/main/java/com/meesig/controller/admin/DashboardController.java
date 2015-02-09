@@ -10,8 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-public class AdminDashboardController {
-    private static final Logger LOG = LoggerFactory.getLogger(AdminDashboardController.class);
+public class DashboardController {
+    private static final Logger LOG = LoggerFactory.getLogger(DashboardController.class);
 
     @RequestMapping("/")
     public String adminIndex(Model model) {

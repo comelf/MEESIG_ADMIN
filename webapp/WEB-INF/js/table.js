@@ -5,15 +5,18 @@ var ADMIN = {
 		var row = e.target.parentNode;
 		row.style.cssText ="background-color:#bbb;";
 		if(typeof input.value != "undefined"){
-			var path = "/user/detail/" + input.value
+			var path = "/" + this.getBasePath() + "/detail/" + input.value
 			window.location.pathname = path; 
 		}
 	},
 	adminInit : function() {
-		console.log("GOOD");
 		var tbody = $('.table').find('tbody')[0];
-		console.log(tbody[0]);
 		tbody.addEventListener("click", this.clickTable.bind(this));
+	},
+	getBasePath : function() {
+		var path = window.location.pathname;
+		var pathArr = path.split("/");
+		return pathArr[1];
 	}
 }
 

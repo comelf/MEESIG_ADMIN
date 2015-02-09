@@ -1,4 +1,4 @@
-package com.meesig.controller.user;
+package com.meesig.controller.admin;
 
 import java.util.List;
 

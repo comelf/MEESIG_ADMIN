@@ -5,13 +5,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.meesig.model.User;
-import com.meesig.model.UserListTable;
 
 import core.util.auth.Crc32;
 import core.util.auth.PhPass;
@@ -28,11 +25,7 @@ public class UserManager {
 	@Autowired
 	PhPass phPass;
 	
-	private int total;
-	
-	private static final Logger log = LoggerFactory
-			.getLogger(UserManager.class);
-
+	private int total = 0;
 	private static final int SQL_SUCSSES = 1;
 	
 	public void createUser(User user, String role) {
