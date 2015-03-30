@@ -10,5 +10,6 @@
  	<mappers>
 		<mapper resource="com/meesig/mapper/UserMapper.xml" />
 		<mapper resource="com/meesig/mapper/ItemMapper.xml" />
+		<mapper resource="com/meesig/mapper/MediaMapper.xml" />
 	</mappers>
 </configuration>

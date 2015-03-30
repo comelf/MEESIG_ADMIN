@@ -179,10 +179,10 @@
 
 </div>
 
-
-<script src="/js/jquery.js"></script>
-<script src="/js/bootstrap.min.js"></script>
-<decorator:getProperty property="page.local_script"></decorator:getProperty>
-
+<div id="script-wrapper">
+	<script src="/js/jquery.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<decorator:getProperty property="page.local_script"></decorator:getProperty>
+</div>
 </body>
 </html>

@@ -15,14 +15,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import com.meesig.model.User;
-import com.meesig.service.UserManager;
+import com.meesig.service.UserDBManager;
 
 
 public class AdminAuthenticationPorvider implements AuthenticationProvider {
     private static final Logger LOG = LoggerFactory.getLogger(AdminAuthenticationPorvider.class);
 
 	@Autowired
-	UserManager userManager;
+	UserDBManager userManager;
 	
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {

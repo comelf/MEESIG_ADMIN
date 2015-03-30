@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import test.util.JndiSpringJUnit4ClassRunner;
 
 import com.meesig.model.User;
-import com.meesig.service.UserManager;
+import com.meesig.service.UserDBManager;
 
 import core.config.ApplicationConfig;
 import static org.hamcrest.CoreMatchers.is;
@@ -36,7 +36,7 @@ public class AdminAuthentication {
 			.getLogger(AdminAuthentication.class);
 
 	@Autowired
-	UserManager userManager;
+	UserDBManager userManager;
 
 	User newUser;
 	

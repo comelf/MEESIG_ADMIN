@@ -11,7 +11,7 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import test.util.JndiSpringJUnit4ClassRunner;
 
 import com.meesig.model.User;
-import com.meesig.service.UserManager;
+import com.meesig.service.UserDBManager;
 import com.meesig.util.Paging;
 
 import core.config.ApplicationConfig;
@@ -23,7 +23,7 @@ import static org.junit.Assert.*;
 public class AdminUserList {
 
 	@Autowired
-	UserManager userManager;
+	UserDBManager userManager;
 	
 	@Test
 	public void userCountTest() {

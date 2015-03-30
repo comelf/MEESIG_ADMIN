@@ -39,7 +39,7 @@
 				<div class="col-lg-6">
 					
 					<div class="fl-left mg-bottom">
-						<form class="form-inline" role="form"
+						<form class="form-inline" role="form">
 							<label>출력개수</label>
 							<select class="form-control" name="count">
 									<c:forEach var="num" items="${celNum}">
@@ -96,7 +96,7 @@
 											<tbody>
 												<c:forEach var="row" items="${userList}">
 													<tr>
-														<td><input type="checkbox" id="inlineCheckbox1" value="${row.user_id}"></td>
+														<td class="non-click"><input type="checkbox" id="inlineCheckbox1" value="${row.user_id}"></td>
 														<td>${row.user_login_id}</td>
 														<td>${row.user_name}</td>
 														<td>${row.user_email}</td>

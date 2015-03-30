@@ -4,22 +4,22 @@ import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.transaction.managed.ManagedTransactionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
+import org.springframework.transaction.aspectj.AnnotationTransactionAspect;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import core.util.auth.Crc32;
 import core.util.auth.PhPass;
 
 @Configuration
-//@PropertySource(value = "classpath:application-properties.xml")
 @ComponentScan(basePackages = {"com.meesig.controller","com.meesig.service"} )
 public class ApplicationConfig {
 
@@ -41,6 +41,7 @@ public class ApplicationConfig {
 //		return cacheManager().getCache("naverApiCache");
 //	}
 	
+	@Bean
 	public DataSource dataSource() {
         final JndiDataSourceLookup dsLookup = new JndiDataSourceLookup();
         dsLookup.setResourceRef(true);
@@ -52,6 +53,7 @@ public class ApplicationConfig {
 	public SqlSessionFactory sqlSessionFactory() throws Exception {
 		SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
 		factoryBean.setDataSource(dataSource());
+		//factoryBean.setTransactionFactory(new ManagedTransactionFactory());
 		factoryBean.setConfigLocation(new ClassPathResource("mybatis-config.xml"));
 		return factoryBean.getObject();
 	}
@@ -60,6 +62,13 @@ public class ApplicationConfig {
 	public SqlSession sqlSession() throws Exception {
 		return new SqlSessionTemplate(sqlSessionFactory());
 	}	
+	
+	@Bean
+	public DataSourceTransactionManager transactionManager() {
+		return new DataSourceTransactionManager(dataSource());
+	}
+	
+
 	
 	@Bean
 	public CommonsMultipartResolver multipartResolver() {
@@ -78,4 +87,5 @@ public class ApplicationConfig {
 	public Crc32 crc32 () {
 		return new Crc32();
 	}
+
 }

@@ -38,7 +38,7 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="fl-right mg-bottom">
-						<form class="form-inline" role="form" action="/user/list/search" method="get">
+						<form class="form-inline" role="form" action="/item/list/search" method="get">
 							<div class="form-group">
 								<select class="form-control" name="type">
 									<option value="name">상품명</option>
@@ -80,12 +80,12 @@
 											<tbody>
 												<c:forEach var="row" items="${itemList}">
 													<tr>
-														<td><input type="checkbox" id="inlineCheckbox1" value="${row.item_id}"></td>
-														<td>${row.item_img_filename}.${row.item_img_extension}</td>
+														<td class="non-click"><input type="checkbox" id="inlineCheckbox1" value="${row.item_id}"></td>
+														<td><img src="${row.media_photo_url}" height="30" width="30"></td>
 														<td>${row.category_name}</td>
 														<td>${row.item_name}</td>
 														<td>${row.item_sell_price}</td>
-														<td>${row.item_state}</td>
+														<td>${row.item_option_state}</td>
 														<td>${row.shop_name}</td>
 														<td>${row.location_name}</td>
 													</tr>

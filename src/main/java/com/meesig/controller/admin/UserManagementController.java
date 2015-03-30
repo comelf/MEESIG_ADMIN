@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.meesig.model.User;
-import com.meesig.service.UserManager;
+import com.meesig.service.UserDBManager;
 import com.meesig.util.Paging;
 
 @Controller
@@ -26,7 +26,7 @@ public class UserManagementController {
     private static final Logger LOG = LoggerFactory.getLogger(UserManagementController.class);
 
 	@Autowired
-	UserManager userManager;
+	UserDBManager userManager;
 
     @RequestMapping(value="/list", method=RequestMethod.GET)
     public String userList(Model model,@RequestParam(defaultValue="1", required=false) int page, @RequestParam(defaultValue="20", required=false) int count) {

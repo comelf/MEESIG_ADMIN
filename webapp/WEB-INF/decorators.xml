@@ -2,6 +2,7 @@
 <decorators defaultdir="/WEB-INF/jsp">
     <excludes>
         <pattern>/admin*</pattern>
+        <pattern>/editor*</pattern>
     </excludes>
 
     <decorator name="admin" page="admin_decorator.jsp">

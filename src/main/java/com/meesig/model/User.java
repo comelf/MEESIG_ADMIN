@@ -13,11 +13,11 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Alias("user")
 public class User {
 	private int 	user_id;
-	@NotEmpty	@Size(min=4, max=20) @Pattern(regexp = "^[A-Za-z]{1}[A-Za-z0-9]{4,20}$")
+	@NotEmpty	@Size(min=4, max=20) @Pattern(regexp = "^[A-Za-z]{1}[A-Za-z0-9]{3,20}$")
 	private String 	user_login_id;
 	private int 	user_crc_id;
 
-	@NotEmpty	@Size(min=8, max=20)
+	@NotEmpty	@Size(min=6, max=20)
 	private String 	user_password;
 	
 	@NotEmpty

@@ -31,3 +31,52 @@ span.error-msg {
 input.display-none {
 	display: none;
 }
+.form-block > .margin-zero {
+	margin: 0px;
+}
+.error-msg {
+	display: block;
+}
+.image-block > label {
+	display: block;
+}
+.image-block > img {
+	display: inline-block;
+	margin-bottom: 20px;
+}
+.pop-layer {
+	display: none;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top:0px;
+	left:0px;
+	z-index: 1101;
+}
+.pop-container {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 400px;
+	height: auto;
+	background-color: #fff;
+	border: 2px solid #bbb;
+}
+.bg {
+	background-color: #000;
+	width: 100%;
+	height: 100%;
+	opacity: 0.6;
+	
+}
+.close-btn {
+	float : right;
+	padding: 0px 3px;
+	color : #bbb;
+}
+input[type="file"] {
+	padding-top: 10px;
+}
+.display-none {
+	display: none;
+}
