@@ -15,6 +15,7 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import com.meesig.mapper.ItemMapper;
 import com.meesig.model.AddItem;
 import com.meesig.model.Category;
 import com.meesig.model.Item;
@@ -32,7 +33,7 @@ public class ItemDBManager {
 	private final int SQL_SUCSSES = 1;
 
 	@Autowired
-	SqlSession sqlSession;
+	ItemMapper itemMapper;
 
 	@Autowired
 	DataSourceTransactionManager transactionManager;
@@ -43,25 +44,15 @@ public class ItemDBManager {
 			int page) {
 		total = countTotalItem();
 
-		Map<String, Object> queryMap = new HashMap<String, Object>();
-		queryMap.put("start", (page - 1) * count);
-		queryMap.put("count", count);
-
-		return sqlSession.selectList(
-				"ItemMapper.selectSortedItemListForManagement", queryMap);
+		return itemMapper.selectSortedItemListForManagement((page - 1) * count, count);
 	}
 
 	private int countTotalItem() {
-		return sqlSession.selectOne("ItemMapper.countTotalItem");
+		return itemMapper.countTotalItem();
 	}
 
 	public int getTotalUser() {
 		return this.total;
-	}
-
-	public Item findItemByIdForManagement(int item_id) {
-		return sqlSession.selectOne("ItemMapper.findItemByIdForManagement",
-				item_id);
 	}
 
 	/*
@@ -80,7 +71,7 @@ public class ItemDBManager {
 
 		try {
 			//Items table
-			sqlSession.insert("ItemMapper.createItemInAdminPage", item);
+			itemMapper.createItemInAdminPage(item);
 			
 			insertItemIntoShippingDayTable(item);
 			insertItemIntoShippingPriceTable(item);
@@ -109,7 +100,7 @@ public class ItemDBManager {
 			
 		//옵션상품
 		case 2:
-			sqlSession.insert("ItemMapper.insertItemOptions", iom);
+			itemMapper.insertItemOptions(iom);
 			break;
 			
 		default:
@@ -134,13 +125,13 @@ public class ItemDBManager {
 		//단일 가격
 		case 2:
 			shippingPrice.addPrice(1, spm.getPriceOpt2(), "");
-			sqlSession.insert("ItemMapper.insertItemShippingPriceWithShippingPrice", shippingPrice);
+			itemMapper.insertItemShippingPriceWithShippingPrice(shippingPrice);
 			break;
 		
 		//선택적 (옵션)
 		case 3:
 			shippingPrice.addPriceList(spm.getPriceOpt3Pri(),spm.getPriceOpt3Des());
-			sqlSession.insert("ItemMapper.insertItemShippingPriceWithShippingPrice", shippingPrice);
+			itemMapper.insertItemShippingPriceWithShippingPrice(shippingPrice);
 			break;
 			
 		default:
@@ -160,20 +151,20 @@ public class ItemDBManager {
 		case 1:
 			shippingDays.setDay_send_time_string(sdm.getDayOpt1time());
 			shippingDays.setDays(sdm.getDayOpt1());
-			sqlSession.insert("ItemMapper.insertItemShippingDayWithDays", shippingDays);
+			itemMapper.insertItemShippingDayWithDays(shippingDays);
 			break;
 			
 		//익일배송(2)
 		case 2:
 			shippingDays.setDay_send_time_string(sdm.getDayOpt2time());
 			shippingDays.setDays(sdm.getDayOpt2());
-			sqlSession.insert("ItemMapper.insertItemShippingDayWithDays", shippingDays);
+			itemMapper.insertItemShippingDayWithDays(shippingDays);
 			break;
 		
 		//배송일 지정(3)
 		case 3:
 			shippingDays.setDay_send_day(Date.valueOf(sdm.getDayOpt3()));
-			sqlSession.insert("ItemMapper.insertItemIntoShippingDay", item);
+			itemMapper.insertItemIntoShippingDay(item);
 			break;
 
 		default:
@@ -183,11 +174,11 @@ public class ItemDBManager {
 	}
 
 	public List<Category> selectCategoryList() {
-		return sqlSession.selectList("ItemMapper.selectCatetoryListAll");
+		return itemMapper.selectCatetoryListAll();
 	}
 
 	public List<Shop> selecShopList() {
-		return sqlSession.selectList("ItemMapper.selectShopListAll");
+		return itemMapper.selectShopListAll();
 	}
 
 	public boolean updateItemInfo(Item item) {
@@ -195,47 +186,44 @@ public class ItemDBManager {
 			item.setMedia_media_id(1);
 		}
 
-		if (sqlSession.update("ItemMapper.updateItemInfoById", item) == SQL_SUCSSES) {
+		if (itemMapper.updateItemInfoById(item) == SQL_SUCSSES) {
 			return true;
 		}
 		return false;
 	}
 
 	public void insertCategory(Category category) {
-		sqlSession.insert("ItemMapper.insertCategory", category);
+		itemMapper.insertCategory(category);
 	}
 
 	public Category selectCategory(int category_id) {
-		return sqlSession.selectOne("ItemMapper.selectCategoryById",
-				category_id);
+		return itemMapper.selectCategoryById(category_id);
 	}
 
 	public void updateCategory(Category category) {
-		sqlSession.update("ItemMapper.updateCategoryById", category);
+		itemMapper.updateCategoryById(category);
 	}
 
 	public List<ItemForList> searchItmeList(String type, String query) {
-		Map<String, Object> queryMap = new HashMap<String, Object>();
-
+		String field = "";
 		switch (type) {
 		case "name":
-			queryMap.put("type", "i.item_name");
+			type= "i.item_name";
 			break;
 		case "shop":
-			queryMap.put("type", "s.shop_name");
+			type = "s.shop_name";
 			break;
 		case "location":
-			queryMap.put("type", "l.location_name");
+			type = "l.location_name";
 			break;
 		case "category":
-			queryMap.put("type", "c.category_name");
+			type = "c.category_name";
 			break;
 		default:
 			return null;
 		}
-		queryMap.put("query", query);
 
-		return sqlSession.selectList("ItemMapper.searchItemList", queryMap);
+		return itemMapper.searchItemList(field, query);
 	}
 
 	public boolean isExistItemId(Item item) {
@@ -249,8 +237,7 @@ public class ItemDBManager {
 			return true;
 		}
 
-		Item itemInDB = sqlSession.selectOne("ItemMapper.findItemIdByPathUrl",
-				path_url);
+		Item itemInDB = itemMapper.findItemIdByPathUrl(path_url);
 
 		if (itemInDB != null) {
 			return true;
@@ -260,11 +247,11 @@ public class ItemDBManager {
 	}
 
 	public void deleteCategory(int category_id) {
-		sqlSession.delete("ItemMapper.deleteCategoryById", category_id);
+		itemMapper.deleteCategoryById(category_id);
 	}
 
 	public int countItems() {
-		return sqlSession.selectOne("ItemMapper.countItems");
+		return itemMapper.countItems();
 	}
 
 	public String isValidItemStates(AddItem addItem) {

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="MediaMapper" >
+<mapper namespace="MediaMapperA" >
         <insert id="insertPhoto" useGeneratedKeys="true" keyProperty="media_id">
         	INSERT INTO media (media_file_name, media_file_extension, media_file_path, media_origin_name, media_type) 
         	VALUES (#{uuFileName}, #{fileExt}, #{requestPath}, #{oriFileName}, 1);

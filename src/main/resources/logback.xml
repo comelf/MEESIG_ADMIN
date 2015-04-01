@@ -9,7 +9,7 @@
       <level>WARN</level>
     </filter> -->
      <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-			<level>DEBUG</level>
+			<level>INFO</level>
 	</filter> 
   </appender>
 
@@ -49,7 +49,7 @@
   </logger>
 
   <root>
-    <level value="DEBUG" />
+    <level value="INFO" />
     <appender-ref ref="STDOUT" />
   </root>
 </configuration>

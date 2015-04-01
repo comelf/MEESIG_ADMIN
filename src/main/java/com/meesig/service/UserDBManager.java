@@ -1,13 +1,11 @@
 package com.meesig.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.meesig.mapper.UserMapper;
 import com.meesig.model.User;
 
 import core.util.auth.Crc32;
@@ -17,7 +15,7 @@ import core.util.auth.PhPass;
 public class UserDBManager {
 	
 	@Autowired
-    SqlSession sqlSession;
+    UserMapper userMapper;
 
 	@Autowired
 	Crc32 crc;
@@ -32,16 +30,12 @@ public class UserDBManager {
 		user.setUser_crc_id( crc.getCode(user.getUser_login_id()));
 		user.setUser_role(role);
 		user.setUser_password(phPass.HashPassword(user.getUser_password()));
-		sqlSession.insert("UserMapper.createUser", user);
-	}
-
-	public int selectOne() {
-		return sqlSession.selectOne("UserMapper.selectOne");
+		userMapper.createUser(user);
 	}
 
 	public User selectUserByLoginIdAndCrc(User user) {
 		user.setUser_crc_id(userIdToCrc(user.getUser_login_id()));
-		return sqlSession.selectOne("UserMapper.selectOneUserByIdAndCrc", user);
+		return userMapper.selectOneUserByIdAndCrc(user);
 	}
 
 	private int userIdToCrc(String user_login_id) {
@@ -50,7 +44,7 @@ public class UserDBManager {
 
 	public void deleteUserById(User deleteUser) {
 		deleteUser.setUser_crc_id(userIdToCrc(deleteUser.getUser_login_id()));
-		sqlSession.delete("UserMapper.deleteUser",deleteUser);
+		userMapper.deleteUser(deleteUser);
 	}
 
 	public boolean isMatchPassword(User adminUser, String user_pw) {
@@ -62,16 +56,11 @@ public class UserDBManager {
 
 	public List<User> selectSortedUserList(int count, int page) {
 		total = countTotalUser();
-		
-		Map<String, Object> queryMap = new HashMap<String, Object>();
-		queryMap.put("start", (page-1)*count);
-		queryMap.put("count", count);
-
-		return sqlSession.selectList("UserMapper.selectSortedUserListForManagement", queryMap );
+		return userMapper.selectSortedUserListForManagement((page-1)*count, count);
 	}
 
 	public int countTotalUser() {
-		return sqlSession.selectOne("UserMapper.countTotalUser");
+		return userMapper.countTotalUser();
 	}
 
 	public boolean isExistentUser(User user) {
@@ -86,8 +75,7 @@ public class UserDBManager {
 	public void createUserInAdminPage(User user) {
 		user.setUser_crc_id( crc.getCode(user.getUser_login_id()));
 		user.setUser_password(phPass.HashPassword(user.getUser_password()));
-		
-		sqlSession.insert("UserMapper.createUserInAdminPage", user);
+		userMapper.createUserInAdminPage(user);
 		
 	}
 
@@ -96,28 +84,27 @@ public class UserDBManager {
 	}
 
 	public List<User> searchUserList(String type, String query) {
-		Map<String, Object> queryMap = new HashMap<String, Object>();
+		String field = "";
 		
 		switch (type) {
 			case "name":
-				queryMap.put("type", "user_name");
+				field = "user_name";
 				break;
 			case "id":
-				queryMap.put("type", "user_login_id");
+				field =  "user_login_id";
 				break;
 			case "email":
-				queryMap.put("type", "user_email");
+				field = "user_email";
 				break;
 			default:
 				return null;
 		}
-		queryMap.put("query", query);
 		
-		return sqlSession.selectList("UserMapper.searchUserList", queryMap );
+		return userMapper.searchUserList(field, query);
 	}
 
 	public User findUserById(int user_id) {
-		return sqlSession.selectOne("UserMapper.findUserById", user_id);
+		return userMapper.findUserById(user_id);
 	}
 
 	public boolean updateUserInfo(User user) {
@@ -125,8 +112,12 @@ public class UserDBManager {
 		if(!user.getUser_password().equals("")){
 			user.setUser_password(phPass.HashPassword(user.getUser_password()));
 		}
-
-		if(sqlSession.update("UserMapper.updateUserInfoById", user) == SQL_SUCSSES){
+			
+		if(user.getUser_gender().isEmpty()){
+			return false;
+		}
+		
+		if(userMapper.updateUserInfoById(user) == SQL_SUCSSES){
 			return true;
 		}
 		return false;

@@ -1,4 +1,4 @@
-package com.meesig.controller.admin;
+package com.meesig.controller.tab;
 
 import java.util.List;
 
@@ -83,7 +83,7 @@ public class ItemManagementController {
     	model.addAttribute("addItem", addItem);
     	
     	
-    	return "item/detail";
+    	return "item/add";
     }
 //
 //	@RequestMapping(value="/edit", method=RequestMethod.POST)

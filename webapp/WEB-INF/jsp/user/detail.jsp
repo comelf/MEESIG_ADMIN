@@ -84,9 +84,9 @@
 							    <label>성별</label>
 							    <div class="form-block">
 							    <label class="radio-inline">
-							    	<form:radiobutton path="user_gender" value="남"/>남</label>
+							    	<form:radiobutton path="user_gender" value="m"/>남</label>
 								<label class="radio-inline">
-								  	<form:radiobutton path="user_gender" value="여"/> 여</label>
+								  	<form:radiobutton path="user_gender" value="f"/> 여</label>
 								</div>
 								<form:errors path="user_gender" cssClass="error-msg" />
 						  	</div>

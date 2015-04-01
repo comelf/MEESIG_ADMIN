@@ -1,5 +1,8 @@
 package com.meesig.model;
 
+import lombok.Data;
+
+@Data
 public class UploadResult {
 	
 	Boolean error;
@@ -20,36 +23,4 @@ public class UploadResult {
 		}
 	}
 
-	public Boolean getError() {
-		return error;
-	}
-
-	public void setError(Boolean error) {
-		this.error = error;
-	}
-
-	public String getImage() {
-		return image;
-	}
-
-	public void setImage(String image) {
-		this.image = image;
-	}
-
-	public String getMsg() {
-		return msg;
-	}
-
-	public void setMsg(String msg) {
-		this.msg = msg;
-	}
-
-	public String getImg_id() {
-		return img_id;
-	}
-
-	public void setImg_id(String img_id) {
-		this.img_id = img_id;
-	}
-	
 }

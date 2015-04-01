@@ -56,6 +56,20 @@
 					<a href="/"><span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span> Dashboard </a>
 				</li>
 				<li>
+					<a href="javascript:;" data-toggle="collapse" data-target="#main"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>  메인관리 </a>
+					<ul id="main" class="collapse">
+						<li>
+							<a href="/main/banner">배너 슬라이드</a>
+						</li>
+						<li>
+							<a href="/main/recommend">추천 상품</a>
+						</li>
+						<li>
+							<a href="/main/review">고객 리뷰</a>
+						</li>
+					</ul>
+				</li>
+				<li>
 					<a href="javascript:;" data-toggle="collapse" data-target="#shop"><span class="glyphicon glyphicon-gift" aria-hidden="true"></span>  상품관리 </a>
 					<ul id="shop" class="collapse">
 						<li>
@@ -65,15 +79,12 @@
 							<a href="/item/add">상품 추가</a>
 						</li>
 						<li>
-							<a href="/item/charge">배송비 관리</a>
-						</li>
-						<li>
 							<a href="/item/category">카테고리</a>
 						</li>
 					</ul>
 				</li>
 				<li>
-					<a href="javascript:;" data-toggle="collapse" data-target="#item"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> 상점관리 </a>
+					<a href="javascript:;" data-toggle="collapse" data-target="#item"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> 상점관리 </a>
 					<ul id="item" class="collapse">
 						<li>
 							<a href="/item/list">상점 목록</a>

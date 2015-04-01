@@ -58,7 +58,7 @@ public class FileManager {
 	 */
 	public UploadResult readAndSave(MultipartFile file, String des, String path) {
 		PhotoInfo pi = new PhotoInfo(file.getOriginalFilename(), file.getSize(), des);
-		pi.setBasePath(path);
+		pi.setUploadPath(path);
 		
 		ImageTransferUtil itu = new ImageTransferUtil();
 		

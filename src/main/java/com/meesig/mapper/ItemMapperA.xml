@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="ItemMapper">
+<mapper namespace="ItemMapperA">
         
         <select id="selectSortedItemListForManagement" resultType="itemForList">
         	select i.item_id, c.category_name, s.shop_name, i.item_name, i.item_sell_price, i.item_option_state, l.location_name, m.media_file_name, m.media_file_extension, m.media_file_path

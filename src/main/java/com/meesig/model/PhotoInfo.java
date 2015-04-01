@@ -4,6 +4,11 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.UUID;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+@Component
+@Scope(value="prototype")
 public class PhotoInfo {
 	private static final String DOT = ".";
 	private int media_id;
@@ -12,9 +17,9 @@ public class PhotoInfo {
 	private String savePath;
 	private String uuFileName;
 	private String fullPath;
-	private String basePath = "/home/media";
+	private String uploadPath = "/home/media";
 	private long fileSize;
-	private String requestPath = "/images/";
+	private String requestPath = "http://localhost:8080/images/";
 
 	public PhotoInfo(String fileName, long size, String des) {
 		// 원본파일명
@@ -39,7 +44,7 @@ public class PhotoInfo {
 	}
 
 	private String getFilePath() {
-		String path = basePath + File.separator;
+		String path = uploadPath + File.separator;
 		File filePath = new File(path);
 		if (!filePath.exists()) {
 			filePath.mkdirs();
@@ -72,12 +77,12 @@ public class PhotoInfo {
 		return fullPath;
 	}
 
-	public String getBasePath() {
-		return basePath;
+	public String getUploadPath() {
+		return uploadPath;
 	}
 
-	public void setBasePath(String path) {
-		this.basePath = path;
+	public void setUploadPath(String path) {
+		this.uploadPath = path;
 		this.savePath = getFilePath();
 		this.fullPath = savePath + uuFileName +DOT+ fileExt;
 	}
@@ -89,7 +94,7 @@ public class PhotoInfo {
 	public long getFileSize() {
 		return fileSize;
 	}
-
+	
 	public String getRequestPath() {
 		return requestPath;
 	}

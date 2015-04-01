@@ -1,5 +1,4 @@
-package com.meesig.controller.admin;
-
+package com.meesig.controller.tab;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -72,10 +71,6 @@ public class UserManagementController {
     	LOG.debug("User : {}",user);
 		
 		if(bindingResult.hasErrors()){
-			List<ObjectError> errors = bindingResult.getAllErrors();
-			for (ObjectError error : errors){
-				LOG.info("error : {}", error.getDefaultMessage());
-			}
 			return "user/add";
 		}
 		
@@ -100,7 +95,12 @@ public class UserManagementController {
     }
     
     @RequestMapping(value="/edit", method=RequestMethod.POST)
-    public String editUser(User user, Model model){
+    public String editUser(@Valid User user, BindingResult bindingResult, Model model){
+		
+		if(bindingResult.hasErrors()){
+			return "user/detail";
+		}
+    	
 		if(userManager.updateUserInfo(user)){
 			model.addAttribute("msg", "사용자정보를 변경하였습니다.");
 		}else{

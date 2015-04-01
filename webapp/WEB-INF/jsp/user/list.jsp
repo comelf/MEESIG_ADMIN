@@ -17,9 +17,7 @@
 			
 				<div class="col-lg-12">
 					<h1 class="page-header">회원목록</h1>
-					<ol class="breadcrumb">
-						User
-					</ol>
+					<ol class="breadcrumb">User</ol>
 				</div>
 			</div>
 			
@@ -100,13 +98,17 @@
 														<td>${row.user_login_id}</td>
 														<td>${row.user_name}</td>
 														<td>${row.user_email}</td>
-														<td>${row.user_gender}</td>
+														<td><c:choose>
+													  			<c:when test="${row.user_gender eq 'm'}">남자</c:when>
+													  			<c:when test="${row.user_gender eq 'f'}">여자</c:when>
+													  			<c:otherwise>${row.user_gender}</c:otherwise>
+													  		</c:choose></td>
 														<td>${row.user_grade}</td>
 														<td> <fmt:formatDate value="${row.user_join_date}" pattern="yyyy-MM-dd HH:mm" /></td>
 													</tr>
 												</c:forEach>
 											</tbody>
-											</div>
+											
 										</table>
 									</div>
 								</div>

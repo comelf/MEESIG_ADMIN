@@ -102,7 +102,7 @@
                 		<div class="col-lg-6">
                 			<div class="image-block">
 	                			<label>상품사진</label>
-	                			<img src="${addItem.media_photo_url}" height="200" width="200" class="">
+	                			<img src="${addItem.media_photo_url}" height="140" width="200" class="">
 	                			<form:input path="media_media_id" type="text" cssClass="display-none" />
 	                			<form:errors path="media_media_id" cssClass="error-msg" />
 	                			<form:input path="media_photo_url" type="text" cssClass="display-none" />
