@@ -26,19 +26,46 @@ public class MediaFileController {
 
 	@RequestMapping(value="/photoUpload", method=RequestMethod.POST)
 	@ResponseBody
-	public UploadResult photoFileUploader(@RequestParam("file")MultipartFile file, @RequestParam String des,
+	public UploadResult photoFileUploader(@RequestParam("file")MultipartFile file, @RequestParam("des") String des,
 			HttpServletRequest request) {
 //		//로컬용
-		String savePath = request.getSession().getServletContext().getRealPath("/WEB-INF/images");
-		UploadResult result = fileManager.readAndSave(file,des,savePath);
+//		String savePath = getSavePath(request);
+//		UploadResult result = fileManager.readAndSave(file,des,savePath);
 		
-//		//서버용
-//		UploadResult result = fileManager.readAndSave(file, des);
+		//서버용
+		UploadResult result = fileManager.readAndSave(file, des);
+		
+		return result;
+		
+	}
+	
+	@RequestMapping(value="/menuPhotoUpload", method=RequestMethod.POST)
+	@ResponseBody
+	public UploadResult menuPhotoFileUploader(@RequestParam("file")MultipartFile file, @RequestParam("alt") String des,
+			HttpServletRequest request) {
+////		//로컬용
+//		String savePath = getSavePath(request);
+//		UploadResult result = fileManager.saveOne(file,des,savePath);
+//		
+		//서버용
+		UploadResult result = fileManager.saveOne(file, des);
 		
 		return result;
 		
 	}
 
+	@RequestMapping(value="/originPhotoUpload", method=RequestMethod.POST)
+	@ResponseBody
+	public UploadResult originPhotoFileUploader(@RequestParam("file")MultipartFile file, @RequestParam String des,
+			HttpServletRequest request) {
+		UploadResult result = fileManager.saveOne(file, des);		
+		return result;
+		
+	}
+	
+//	private String getSavePath(HttpServletRequest request){
+//		return request.getSession().getServletContext().getRealPath("/WEB-INF/images");
+//	}
 	
 	
 }

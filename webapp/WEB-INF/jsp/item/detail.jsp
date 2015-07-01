@@ -2,24 +2,27 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib prefix="meesig" tagdir="/WEB-INF/tags"%>
+<!DOCTYPE html>
 <html>
 
 <body>
+		<!-- Page -->
         <div id="page-wrapper">
 
             <div class="container-fluid">
 
                 <!-- Page Heading -->
-                <div class="row">
+				<div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header"> 상품 편집  <small>User</small></h1>
+                        <h1 class="page-header"> 상품상세 <small>Item</small></h1>
                         <ol class="breadcrumb">
-                            <li class="active"> 상품 정보를 수정합니다.</li>
+                            <li class="active">상품을 변경합니다.</li>
                         </ol>
                     </div>
                 </div>
                 
+                <!-- Message -->
                 <c:if test="${not empty msg}">
 	                <div class="row">
 	                 	<div class="col-lg-12">
@@ -31,15 +34,16 @@
 	                </div>
                 </c:if>
                 
+                <!-- Page Body -->
+                <form:form modelAttribute="addItem" role="form" id="form" action="/item/update" method="post" >
                 <div class="row">
                 	<div class="col-lg-12">
-                	<form:form modelAttribute="item" role="form" id="form" action="/item/edit" method="post" >
                 		<div class="col-lg-6">
-                			<form:input path="item_id" cssClass="form-control display-none" readonly="true"/>
+                			<form:input path="item_id" cssClass="hidden" readonly="true"/>
 	                		<div class="form-group">
 	                			<label>분류</label>
 	                			<form:select path="item_category_id" cssClass="form-control">
-	                				<c:forEach var="c" items="${category}">
+	                				<c:forEach var="c" items="${addItem.categoryList}">
 	                					<form:option value="${c.category_id}">${c.category_name}</form:option>
 	                				</c:forEach>
 							    </form:select>
@@ -47,7 +51,7 @@
 	                		<div class="form-group">
 	                			<label>상점</label>
 	                			<form:select path="shops_shop_id" cssClass="form-control">
-	                				<c:forEach var="s" items="${shops}">
+	                				<c:forEach var="s" items="${addItem.shopList}">
 	                					<form:option value="${s.shop_id}">${s.shop_name}</form:option>
 	                				</c:forEach>
 							    </form:select>
@@ -60,13 +64,13 @@
 	                		</div>
 	                		<div class="form-group">
 								<label>상품 고유 아이디(영문)</label>
-								<form:input path="item_path_url" type="text" cssClass="form-control" placeholder="Itme Id" readonly="true"/>
+								<form:input path="item_path_url" type="text" cssClass="form-control" placeholder="Itme Id"/>
 							    <form:errors path="item_path_url" cssClass="error-msg" />
 	                		</div>
 	                		<div class="form-group">
 								<label>상품 설명</label>
-								<form:input path="item_discription" type="text" cssClass="form-control" placeholder="Discription"/>
-							    <form:errors path="item_discription" cssClass="error-msg" />
+								<form:input path="item_description" type="text" cssClass="form-control" placeholder="Description"/>
+							    <form:errors path="item_description" cssClass="error-msg" />
 	                		</div>
 	                	</div>
 	                	<div class="col-lg-6">
@@ -91,75 +95,298 @@
 							    <form:errors path="item_daily_stock" cssClass="error-msg" />
 	                		</div>
 	                		<div class="form-group">
-								<label>상태</label>
-								<div class="form-block">
-								    <label class="radio-inline margin-zero">
-								    	<form:radiobutton path="item_option_state" value="1" />단순상품</label>
-								    <label class="radio-inline margin-zero">
-								    	<form:radiobutton path="item_option_state" value="2"/>그룹상품</label>
-								    <label class="radio-inline margin-zero">
-								    	<form:radiobutton path="item_option_state" value="3"/>옵션상품</label>
-								    <label class="radio-inline margin-zero">
-									  	<form:radiobutton path="item_option_state" value="6"/>세일상품</label>
-									<label class="radio-inline margin-zero">
-									  	<form:radiobutton path="item_option_state" value="9"/>판매대기</label>
-									<label class="radio-inline margin-zero">
-									  	<form:radiobutton path="item_option_state" value="0"/>판매종료</label>
-									<form:errors path="item_option_state" cssClass="error-msg" />
-								</div>
+								<label>상품 태그(,로 구분)</label>
+								<form:input path="item_tag" type="text" cssClass="form-control"/>
+							    <form:errors path="item_tag" cssClass="error-msg" />
 	                		</div>
+	                		
 					    </div>
 					</div>
+				</div>
+				<div class="row">
+                	<div class="col-lg-12">
+                		<div class="col-lg-6">
+                			<div class="image-block">
+	                			<label>상품사진</label>
+	                			<img src="${addItem.media_photo_url}" height="140" width="200" class="">
+	                			<form:input path="media_media_id" type="text" cssClass="display-none" />
+	                			<form:errors path="media_media_id" cssClass="error-msg" />
+	                			<form:input path="media_photo_url" type="text" cssClass="display-none" />
+	                			<input type="button" class="btn btn-primary" id="add-image" value="이미지 업로드" onclick="ADMIN.photoUpload(this)">
+                			</div>
+                		</div>
+                	</div>
+                </div>
+					<div class="row">
+						<div class="col-lg-12 das">
+							<div class="col-lg-6">
+								<div class="form-group">
+									<label>배송일 관리</label>
+										<div class="form-block mes-cho">
+											<meesig:radiobutton path="item_shipping_day_state" items="${addItem.shippingDaySelectList}" labelClass="radio-inline"/>
+											<form:errors path="item_shipping_day_state" cssClass="error-msg" />
+										</div>
+		                		</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="1" style="display:none;">
+									<label>발송일 선택(발송가능한 날짜 선택)</label>
+									<div class="form-block">
+									    <label class="checkbox-inline">
+									    	<form:checkbox path="sdm.dayOpt1" value="1" />월</label>
+									    <label class="checkbox-inline">
+									    	<form:checkbox path="sdm.dayOpt1" value="2"/>화</label>
+									    <label class="checkbox-inline">
+									    	<form:checkbox path="sdm.dayOpt1" value="3"/>수</label>
+									    <label class="checkbox-inline">
+										  	<form:checkbox path="sdm.dayOpt1" value="4"/>목</label>
+										<label class="checkbox-inline">
+										  	<form:checkbox path="sdm.dayOpt1" value="5"/>금</label>
+										<label class="checkbox-inline">
+										  	<form:checkbox path="sdm.dayOpt1" value="6"/>토</label>
+									</div>
+									<label>주문마감시간</label>
+									<div class="form-block">
+										<form:input path="sdm.dayOpt1time" type="time"/>
+									</div>
+								</div>
+								<div class="2" style="display:none;">
+									<label>발송일 선택(발송가능한 날짜 선택)</label>
+									<div class="form-block">
+									    <label class="checkbox-inline">
+									    	<form:checkbox path="sdm.dayOpt2" value="1" />월</label>
+									    <label class="checkbox-inline">
+									    	<form:checkbox path="sdm.dayOpt2" value="2"/>화</label>
+									    <label class="checkbox-inline">
+									    	<form:checkbox path="sdm.dayOpt2" value="3"/>수</label>
+									    <label class="checkbox-inline">
+										  	<form:checkbox path="sdm.dayOpt2" value="4"/>목</label>
+										<label class="checkbox-inline">
+										  	<form:checkbox path="sdm.dayOpt2" value="5"/>금</label>
+										<label class="checkbox-inline">
+										  	<form:checkbox path="sdm.dayOpt2" value="6"/>토</label>
+									</div>
+									<label>주문마감시간</label>
+									<div class="form-block">
+										<form:input path="sdm.dayOpt2time" type="time"/>
+									</div>
+								</div>
+								<div class="3" style="display:none;">
+									<label>발송일 선택</label>
+									<div class="form-block">
+								    	<form:input path="sdm.dayOpt3" type="date"/>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-lg-12 dps">
+							<div class="col-lg-6">
+								<div class="form-group">
+									<label>배송비 관리</label>
+										<div class="form-block mes-cho">
+										    <meesig:radiobutton path="item_shipping_price_state" items="${addItem.shippingPriceSelectList}" labelClass="radio-inline"/>
+											<form:errors path="item_shipping_price_state" cssClass="error-msg" />
+										</div>
+		                		</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="1" style="display:none;">
+									<label>무료배송</label>
+								</div>
+								<div class="2" style="display:none;">
+									<label>배송비 입력</label>
+									<div class="form-inline">
+								    	<form:input path="spm.priceOpt2" type="text" cssClass="form-control"/>원
+									</div>
+								</div>
+								<div class="3" style="display:none;">
+									<label>선택형 배송비 (내용 / 가격)</label>
+									<c:forEach var="des" items="${addItem.spm.priceOpt3Des}" varStatus="n">
+										<meesig:mi path1="spm.priceOpt3Des" path2="spm.priceOpt3Pri" item1="${des}" item2="${addItem.spm.priceOpt3Pri[n.index]}"/>
+									</c:forEach>
+										<input type="button" class="btn btn-primary" id="adddpo" value="추가" onclick="ITEM.addDeliveryPriceOptringInput(this)"/>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12 os">
+							<div class="col-lg-6">
+								<div class="form-group">
+									<label>옵션</label>
+									<div class="form-block mes-cho">
+									   <meesig:radiobutton path="item_has_option" items="${addItem.itemOptionSelectList}" labelClass="radio-inline"/>
+										<form:errors path="item_has_option" cssClass="error-msg" />
+									</div>
+		                		</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="0" style="display:none;">
+									<label>옵션 없음</label>
+								</div>
+								<div class="1" style="display:none;">
+									<label>옵션 항목 (옵션명 / 가격)</label>
+									<meesig:option item="${addItem.iom}"/>																		
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12 os">
+							<div class="col-lg-6">
+							<div class="form-group">
+								<label>세일 여부</label>
+								<div class="form-block mes-cho">
+								   <meesig:radiobutton path="item_is_sale" items="${addItem.isSale}" labelClass="radio-inline"/>
+									<form:errors path="item_is_sale" cssClass="error-msg" />
+								</div>
+	                		</div>
+							</div>
+							<div class="col-lg-6">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12 os">
+							<div class="col-lg-6">
+							<div class="form-group">
+								<label>신상품 여부</label>
+								<div class="form-block mes-cho">
+								   <meesig:radiobutton path="item_is_new" items="${addItem.isNew}" labelClass="radio-inline"/>
+									<form:errors path="item_is_new" cssClass="error-msg" />
+								</div>
+	                		</div>
+							</div>
+							<div class="col-lg-6">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12 os">
+							<div class="col-lg-6">
+							<div class="form-group">
+								<label>리스트 노출 여부</label>
+								<div class="form-block mes-cho">
+								   <meesig:radiobutton path="item_is_sell" items="${addItem.isSell}" labelClass="radio-inline"/>
+									<form:errors path="item_state" cssClass="error-msg" />
+								</div>
+	                		</div>
+							</div>
+							<div class="col-lg-6">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12 os">
+							<div class="col-lg-6">
+							<div class="form-group">
+								<label>상품상태</label>
+								<div class="form-block mes-cho">
+								   <meesig:radiobutton path="item_state" items="${addItem.itemState}" labelClass="radio-inline"/>
+									<form:errors path="item_state" cssClass="error-msg" />
+								</div>
+	                		</div>
+							</div>
+							<div class="col-lg-6">
+							</div>
+						</div>
+					</div>
+
+					<!-- Textarea For Tinymce -->
 	                <div class="row">
 	                	<div class="col-lg-12">
 	                		<div class="col-lg-12">
-						    <div class="form-group">
-						   		<label>Contents</label>
-						    	<form:textarea path="item_content" cssClass="form-control" rows="5"  />
-						   	</div>
+							    <div class="form-group">
+							   		<label>Contents</label>
+							    	<form:textarea path="item_content" cssClass="form-control" rows="20" />
+							   	</div>
 						   	</div>
 						</div>
 					</div>
 					 <div class="row">
 	                	<div class="col-lg-12">
 	                		<div class="col-lg-12">
-						    <div class="form-group">
-						    	<label>원산지 표시</label>
-								<form:textarea path="item_origin" cssClass="form-control" rows="5"  />						    	
-						   	</div>
+							    <div class="form-group">
+							    	<label>원산지 표시</label>
+									<form:textarea path="item_origin" cssClass="form-control" rows="5"  />						    	
+							   	</div>
 						   	</div>
 						</div>
 					</div>
 					<div class="row">
 	                	<div class="col-lg-12">
-	                	<div class="col-lg-12">
-						    <div class="form-group">
-						    	<label>배송 사항</label>
-								<form:textarea path="item_delivery" cssClass="form-control" rows="5" />						    	
-						   	</div>
+	                		<div class="col-lg-12">
+							    <div class="form-group">
+							    	<label>배송 사항</label>
+									<form:textarea path="item_shipping" cssClass="form-control" rows="5" />						    	
+							   	</div>
 						   	</div>
 						</div>
 					</div>
-					<div class="col-lg-12">
-					<input type="button" class="btn btn-danger" id="savebutton" value="저장" />
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="col-lg-3">
+								<input type="button" class="btn btn-danger" id="savebutton" value="저장" />
+							</div>
+						</div>
 					</div>
-					</form:form>
-                	
-                </div>
+				
+				</form:form>
                 
                 <div class="row">
                 	<div class="col-lg-12">
-                		<div class="block-200">
+                		<div class="block-400">
                 		</div>
                 	</div>
                 </div>
+                
 			</div>
+			<!-- Photo Uploader -->
+	        <div id="photo-uploader" class="pop-layer" >
+	            <div class="bg"></div>
+                <div class="pop-container">
+                	<div class="btn-r">
+                		<span class="glyphicon glyphicon-remove close-btn"></span>
+                	</div>
+                	<div class="pop-conts">
+                		<h4><label  class="col-lg-10">상품 이미지</label></h4>
+                		<form method="POST" enctype="multipart/form-data" action="/media/photoUpload" role="form" class="form-horizontal" id="form-img-upload">
+                			 <div class="form-group">
+                			 	<label class="col-lg-3 control-label">이미지</label>
+                			 	<div class="col-lg-7">
+                			 		<input type="file" name="file">
+                			 		<span class="error-msg"></span>
+                			 	</div>
+					         </div>
+					         <div class="form-group">
+					         	<label class="col-lg-3 control-label">설명</label>
+					         	<div class="col-lg-7">
+					         		<input type="text" name="des" class="form-control">
+					         	</div>
+					         </div>
+					         <div class="form-group">
+					         	<div class="col-lg-offset-3 col-lg-7">
+					         		<input type="submit" class="btn btn-primary" value="파일 올리기">
+					         	</div>
+					         </div>
+					     </form>
+                	</div>
+                	
+                </div>
+            </div>
         </div>
-
+		
+      
 <content tag="local_script">
 	<!-- 	<script src="/js/tinymce/tinymce.min.js"></script>
 			<script src="/js/tinymce.init.js"></script>
+			<script src="/js/meesig.admin.js"></script>
+			<script src="/js/item.choice.js"></script>
 		-->
 </content>
+        
 </body>
 </html>

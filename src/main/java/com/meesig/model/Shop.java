@@ -1,5 +1,7 @@
 package com.meesig.model;
 
+import java.util.List;
+
 import lombok.Data;
 
 import org.apache.ibatis.type.Alias;
@@ -17,6 +19,8 @@ public class Shop {
 	private int shop_state;
 	private int media_media_id;
 
+	private List<Item> items;
+	
 	public Shop() {
 
 	}

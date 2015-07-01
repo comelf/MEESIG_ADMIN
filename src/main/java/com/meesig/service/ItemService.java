@@ -16,17 +16,23 @@ public class ItemService {
     	item.setItem_state(ItemState.WAIT_FOR_SALE);
     	item.setShippingDaySelectList(optionMaker.makeShippingDaySelectList());
     	item.setShippingPriceSelectList(optionMaker.makeShippingPriceSelectList());
-    	item.setItemOptionSelectList(optionMaker.makeItemOptionSelectList());
-    	item.setItemStateList(optionMaker.makeItemStateList());
-
+    	item.setItemOptionSelectList(optionMaker.makeItemHasOption());
+    	item.setItemState(optionMaker.makeItemStateList());
+    	item.setIsSale(optionMaker.makeItemIsSale());
+    	item.setIsSell(optionMaker.makeItemIsSell());
+    	item.setIsNew(optionMaker.makeItemIsNew());
+    	
 		return item;
 	}
 
 	public void reloadItem(AddItem addedItem) {
 		addedItem.setShippingDaySelectList(optionMaker.makeShippingDaySelectList());
 		addedItem.setShippingPriceSelectList(optionMaker.makeShippingPriceSelectList());
-		addedItem.setItemOptionSelectList(optionMaker.makeItemOptionSelectList());
-		addedItem.setItemStateList(optionMaker.makeItemStateList());
+		addedItem.setItemOptionSelectList(optionMaker.makeItemHasOption());
+		addedItem.setItemState(optionMaker.makeItemStateList());
+		addedItem.setIsSale(optionMaker.makeItemIsSale());
+		addedItem.setIsSell(optionMaker.makeItemIsSell());
+		addedItem.setIsNew(optionMaker.makeItemIsNew());
 	}
 
 }

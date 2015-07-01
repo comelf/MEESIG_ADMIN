@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<Context path="/meesig" docBase="/meesig" reloadable="true" crossContext="true">
+<Context path="/" docBase="/meesig" reloadable="true" crossContext="true">
 
 
    <Resource name="jdbc/database"
@@ -22,4 +22,7 @@
              username="meesig"
              password="M@eS1g$2*Wow!"
              url="jdbc:mysql://localhost:3306/MEESIG" />
+             
+	<Resources className="org.apache.naming.resources.VirtualDirContext"
+			extraResourcePaths="/images=/media/images"/>
 </Context>

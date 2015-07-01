@@ -59,13 +59,19 @@
 					<a href="javascript:;" data-toggle="collapse" data-target="#main"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>  메인관리 </a>
 					<ul id="main" class="collapse">
 						<li>
-							<a href="/main/banner">배너 슬라이드</a>
+							<a href="/main/webbanner">웹 배너</a>
+						</li>
+						<li>
+							<a href="/main/mobilebanner">모바일 배너</a>
 						</li>
 						<li>
 							<a href="/main/recommend">추천 상품</a>
 						</li>
 						<li>
 							<a href="/main/review">고객 리뷰</a>
+						</li>
+						<li>
+							<a href="/main/menus">노출 메뉴</a>
 						</li>
 					</ul>
 				</li>
@@ -83,7 +89,7 @@
 						</li>
 					</ul>
 				</li>
-				<li>
+				<!-- <li>
 					<a href="javascript:;" data-toggle="collapse" data-target="#item"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> 상점관리 </a>
 					<ul id="item" class="collapse">
 						<li>
@@ -99,7 +105,7 @@
 							<a href="/item/category">상점 지역</a>
 						</li>
 					</ul>
-				</li>
+				</li> -->
 				<li>
 					<a href="javascript:;" data-toggle="collapse" data-target="#user"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 회원관리 </a>
 					<ul id="user" class="collapse">
@@ -115,25 +121,22 @@
 					<a href="javascript:;" data-toggle="collapse" data-target="#order"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> 주문관리 </a>
 					<ul id="order" class="collapse">
 						<li>
-							<a href="/item/list">주문</a>
+							<a href="/order/orders">주문목록</a>
 						</li>
 						<li>
-							<a href="/item/list">발주</a>
+							<a href="/order/list">결제</a>
 						</li>
-						<li>
-							<a href="/item/list">결제</a>
-						</li>
-						<li>
+						<!-- <li>
 							<a href="/item/add">쿠폰</a>
-						</li>
+						</li> 
 						<li>
 							<a href="/item/charge">포인트</a>
+						</li>-->
+						<li>
+							<a href="/order/delivery">배송관리</a>
 						</li>
 						<li>
-							<a href="/item/category">배송관리</a>
-						</li>
-						<li>
-							<a href="/item/category">내보내기</a>
+							<a href="/order/output">내보내기</a>
 						</li>
 					</ul>
 				</li>

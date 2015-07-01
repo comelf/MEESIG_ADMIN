@@ -26,10 +26,31 @@ public class OptionMaker {
 		return itemOptionState;
 	}
 	
-	public List<Option> makeItemOptionSelectList(){
+	public List<Option> makeItemHasOption(){
 		List<Option> itemOptionState = new ArrayList<Option>();
-		itemOptionState.add(new Option("1","옵션 없음"));
-		itemOptionState.add(new Option("2","옵션 있음"));
+		itemOptionState.add(new Option("0","옵션 없음"));
+		itemOptionState.add(new Option("1","옵션 있음"));
+		return itemOptionState;
+	}
+	
+	public List<Option> makeItemIsSale(){
+		List<Option> itemOptionState = new ArrayList<Option>();
+		itemOptionState.add(new Option("0","세일 안함"));
+		itemOptionState.add(new Option("1","세일 함"));
+		return itemOptionState;
+	}
+	
+	public List<Option> makeItemIsSell(){
+		List<Option> itemOptionState = new ArrayList<Option>();
+		itemOptionState.add(new Option("0","노출 안함"));
+		itemOptionState.add(new Option("1","노출 함"));
+		return itemOptionState;
+	}
+	
+	public List<Option> makeItemIsNew(){
+		List<Option> itemOptionState = new ArrayList<Option>();
+		itemOptionState.add(new Option("0","일반"));
+		itemOptionState.add(new Option("1","신상품"));
 		return itemOptionState;
 	}
 	
@@ -38,7 +59,6 @@ public class OptionMaker {
 		itemOptionState.add(new Option("1","판매종료"));
 		itemOptionState.add(new Option("2","판매대기"));
 		itemOptionState.add(new Option("3","판매상품"));
-		itemOptionState.add(new Option("4","세일상품"));
 		return itemOptionState;
 	}
 

@@ -31,7 +31,7 @@ public class ApplicationConfig {
         dsLookup.setResourceRef(true);
         DataSource dataSource = dsLookup.getDataSource("jdbc/database");
         return dataSource;
-    } 
+    }
 	
 	@Bean
 	public SqlSessionFactory sqlSessionFactory() throws Exception {
@@ -50,8 +50,6 @@ public class ApplicationConfig {
 	public DataSourceTransactionManager transactionManager() {
 		return new DataSourceTransactionManager(dataSource());
 	}
-	
-
 	
 	@Bean
 	public CommonsMultipartResolver multipartResolver() {

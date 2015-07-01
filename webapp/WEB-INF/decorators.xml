@@ -3,6 +3,7 @@
     <excludes>
         <pattern>/admin*</pattern>
         <pattern>/editor*</pattern>
+        <pattern>/popup/*</pattern>
     </excludes>
 
     <decorator name="admin" page="admin_decorator.jsp">

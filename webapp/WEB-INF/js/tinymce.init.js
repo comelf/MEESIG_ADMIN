@@ -36,6 +36,8 @@ tinymce.init({
 		language : 'ko_KR',
 		selector: ADMIN.cAreaName,
 		theme: "modern",
+		relative_urls: false,
+		convert_urls: false,
 		plugins: ["advlist autolink link lists charmap preview hr anchor pagebreak spellchecker",
 			       "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime nonbreaking",
 			       "save table contextmenu directionality emoticons paste textcolor uploadimage"

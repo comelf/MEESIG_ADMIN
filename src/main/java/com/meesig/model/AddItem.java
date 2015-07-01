@@ -22,12 +22,14 @@ public class AddItem extends Item {
 	List<Option> itemOptionSelectList;
 	ItemOptionManage iom;
 
-	List<Option> itemStateList;
-
+	List<Option> isNew;
+	List<Option> isSale;
+	List<Option> isSell;
+	List<Option> itemState;
+	
 	public AddItem() {
 		super();
 	}
-
 
 	public String validationOfShippingDayState() {
 		super.getItem_shipping_day_state();

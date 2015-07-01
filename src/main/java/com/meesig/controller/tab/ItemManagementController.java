@@ -10,19 +10,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.meesig.mapper.MediaMapper;
 import com.meesig.model.AddItem;
 import com.meesig.model.Category;
 import com.meesig.model.ItemForList;
+import com.meesig.model.Media;
 import com.meesig.model.Shop;
 import com.meesig.service.ItemDBManager;
 import com.meesig.service.ItemService;
 import com.meesig.util.Paging;
+import com.meesig.util.ResourceNotFoundException;
 
 @Controller
 @RequestMapping("/item")
@@ -31,6 +33,9 @@ public class ItemManagementController {
 
     @Autowired
     ItemDBManager itemDBManager;
+    
+    @Autowired
+    MediaMapper MediaMapper;
     
     @Autowired
     ItemService itemService;
@@ -45,7 +50,7 @@ public class ItemManagementController {
     	if ( page<1   )	{ page =1; 		}
     	
     	List<ItemForList> itemList = itemDBManager.selectSortedItemList(sort, count, page);
-    	Paging paging = new Paging(page, itemDBManager.getTotalUser(), count);
+    	Paging paging = new Paging(page, itemDBManager.getTotalItem(), count);
     	model.addAttribute("itemList", itemList);
     	model.addAttribute("paging", paging);
         
@@ -75,31 +80,45 @@ public class ItemManagementController {
     
     @RequestMapping("/detail/{item_id}")
     public String itemDetail(@PathVariable int item_id, Model model) {
-    	AddItem addItem = itemService.makeNewItem();
+    	AddItem addItem = itemDBManager.selectItemById(item_id);
+    	if(addItem==null){
+    		throw new ResourceNotFoundException();
+    	}
+    	itemService.reloadItem(addItem);
     	addItem.setCategoryList(getCategoryList());
     	addItem.setShopList(getShopList());
-    	
-    	//addItem.setItemFromDB(itemDBManager.findItemByIdForManagement(item_id));
+    	Media media = MediaMapper.selectMediaByMediaId(addItem.getMedia_media_id());
+    	addItem.setMedia_photo_url(media.getSumnailImg());
     	model.addAttribute("addItem", addItem);
-    	
-    	
-    	return "item/add";
+    	return "item/detail";
     }
-//
-//	@RequestMapping(value="/edit", method=RequestMethod.POST)
-//    public String editItem(Item item, Model model){
-//		if(itemManager.updateItemInfo(item)){
-//			model.addAttribute("msg", "상품 정보를 변경하였습니다.");
-//		}else{
-//			model.addAttribute("msg", "상품 정보 변경실패.");
-//		}
-//    	
-//        model.addAttribute("category", getCategoryList());
-//        model.addAttribute("shops", getShopList());
-//    	model.addAttribute("item", itemManager.findItemByIdForManagement(item.getItem_id()));
-//		
-//		return "item/detail";
-//    }
+    
+    @RequestMapping(value="/update", method=RequestMethod.POST)
+    public String updateItem(@Valid AddItem addItem, BindingResult bindingResult, Model model) {
+    	addItem.setCategoryList(getCategoryList());
+    	addItem.setShopList(getShopList());
+    	itemService.reloadItem(addItem);
+    	
+        if(bindingResult.hasErrors()){
+        	model.addAttribute("msg", "상품 추가 오류");
+			return "item/detail";
+        }
+        
+    	if(!itemDBManager.updateItmeInAdminPage(addItem)){
+    		model.addAttribute("msg", "상품 업데이트 실패");
+    		return  "item/detail";
+    	}
+    	
+    	addItem = itemDBManager.selectItemById(addItem.getItem_id());
+    	itemService.reloadItem(addItem);
+    	addItem.setCategoryList(getCategoryList());
+    	addItem.setShopList(getShopList());
+    	Media media = MediaMapper.selectMediaByMediaId(addItem.getMedia_media_id());
+    	addItem.setMedia_photo_url(media.getSumnailImg());
+    	model.addAttribute("addItem", addItem);
+    	model.addAttribute("msg", "상품이 변경되었습니다.");
+        return "item/detail";
+    }
     
     @RequestMapping("/add")
     public String itemAddInAdmin(Model model) {
@@ -122,12 +141,12 @@ public class ItemManagementController {
 			return "item/add";
         }
         
-        String msg = itemDBManager.isValidItemStates(addItem);
-        
-        if(msg!=null){
-        	model.addAttribute("msg", msg);
-			return "item/add";
-        }
+//        String msg = itemDBManager.isValidItemStates(addItem);
+//        
+//        if(msg!=null){
+//        	model.addAttribute("msg", msg);
+//			return "item/add";
+//        }
         
         if(itemDBManager.isExistItemId(addItem)){
         	model.addAttribute("msg", "상품의 아이디는 고유해야 합니다.");
@@ -144,7 +163,7 @@ public class ItemManagementController {
     	addItem.setShopList(getShopList());
     	
     	model.addAttribute("msg", "상품이 추가되었습니다.");
-        return "item/add";
+        return "item/detail";
     }
     
     

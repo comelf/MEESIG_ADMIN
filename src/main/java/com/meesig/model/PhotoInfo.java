@@ -4,11 +4,9 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.UUID;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+import org.apache.ibatis.type.Alias;
 
-@Component
-@Scope(value="prototype")
+@Alias("photoInfo")
 public class PhotoInfo {
 	private static final String DOT = ".";
 	private int media_id;
@@ -17,7 +15,7 @@ public class PhotoInfo {
 	private String savePath;
 	private String uuFileName;
 	private String fullPath;
-	private String uploadPath = "/home/media";
+	private String uploadPath = "/media/images";
 	private long fileSize;
 	private String requestPath = "http://localhost:8080/images/";
 
@@ -99,10 +97,6 @@ public class PhotoInfo {
 		return requestPath;
 	}
 
-	public String getFileUrl() {
-		return requestPath + uuFileName + DOT + fileExt;
-	}
-
 	public int getMedia_id() {
 		return media_id;
 	}
@@ -111,13 +105,12 @@ public class PhotoInfo {
 		this.media_id = media_id;
 	}
 
-	public String getFullPathWithInt(int num) {
-		return savePath + uuFileName + num + DOT + fileExt;
+	public String getUrlPathWithQuality(int q) {
+		return requestPath + uuFileName +q + DOT + fileExt;
 	}
-
-	public String getFileUrlWithQuality(int i) {
-		
-		return requestPath + uuFileName +i + DOT + fileExt;
+	
+	public String getSavePathWithQuality(int q) {
+		return savePath + uuFileName + q + DOT + fileExt;
 	}
 
 }

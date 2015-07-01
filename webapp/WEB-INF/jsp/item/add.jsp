@@ -93,6 +93,11 @@
 								<form:input path="item_daily_stock" type="text" cssClass="form-control" placeholder="0"/>
 							    <form:errors path="item_daily_stock" cssClass="error-msg" />
 	                		</div>
+	                		<div class="form-group">
+								<label>상품 태그(,로 구분)</label>
+								<form:input path="item_tag" type="text" cssClass="form-control"/>
+							    <form:errors path="item_tag" cssClass="error-msg" />
+	                		</div>
 	                		
 					    </div>
 					</div>
@@ -202,43 +207,85 @@
 										<meesig:mi path1="spm.priceOpt3Des" path2="spm.priceOpt3Pri" item1="${des}" item2="${addItem.spm.priceOpt3Pri[n.index]}"/>
 									</c:forEach>
 										<meesig:mi path1="spm.priceOpt3Des" path2="spm.priceOpt3Pri" item1="" item2=""/>
-										<input type="button" class="btn btn-primary" id="adddpo" value="추가" onclick="ADMIN.addDeliveryPriceOptringInput(this)"/>
+										<input type="button" class="btn btn-primary" id="adddpo" value="추가" onclick="ITEM.addDeliveryPriceOptringInput(this)"/>
 								</div>
 							</div>
 						</div>
 					</div>
-					
 					<div class="row">
 						<div class="col-lg-12 os">
 							<div class="col-lg-6">
 								<div class="form-group">
-									<label>상태</label>
+									<label>옵션</label>
 									<div class="form-block mes-cho">
-									   <meesig:radiobutton path="item_option_state" items="${addItem.itemOptionSelectList}" labelClass="radio-inline"/>
-										<form:errors path="item_option_state" cssClass="error-msg" />
+									   <meesig:radiobutton path="item_has_option" items="${addItem.itemOptionSelectList}" labelClass="radio-inline"/>
+										<form:errors path="item_has_option" cssClass="error-msg" />
 									</div>
 		                		</div>
 							</div>
 							<div class="col-lg-6">
-								<div class="1" style="display:none;">
+								<div class="0" style="display:none;">
 									<label>옵션 없음</label>
-									
 								</div>
-								<div class="2" style="display:none;">
+								<div class="1" style="display:none;">
 									<label>옵션 항목 (옵션명 / 가격)</label>
 									<meesig:option item="${addItem.iom}"/>																		
 								</div>
 							</div>
 						</div>
 					</div>
-					
 					<div class="row">
 						<div class="col-lg-12 os">
 							<div class="col-lg-6">
 							<div class="form-group">
-								<label>상태</label>
+								<label>세일 여부</label>
 								<div class="form-block mes-cho">
-								   <meesig:radiobutton path="item_state" items="${addItem.itemStateList}" labelClass="radio-inline"/>
+								   <meesig:radiobutton path="item_is_sale" items="${addItem.isSale}" labelClass="radio-inline"/>
+									<form:errors path="item_is_sale" cssClass="error-msg" />
+								</div>
+	                		</div>
+							</div>
+							<div class="col-lg-6">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12 os">
+							<div class="col-lg-6">
+							<div class="form-group">
+								<label>신상품 여부</label>
+								<div class="form-block mes-cho">
+								   <meesig:radiobutton path="item_is_new" items="${addItem.isNew}" labelClass="radio-inline"/>
+									<form:errors path="item_is_new" cssClass="error-msg" />
+								</div>
+	                		</div>
+							</div>
+							<div class="col-lg-6">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12 os">
+							<div class="col-lg-6">
+							<div class="form-group">
+								<label>리스트 노출 여부</label>
+								<div class="form-block mes-cho">
+								   <meesig:radiobutton path="item_is_sell" items="${addItem.isSell}" labelClass="radio-inline"/>
+									<form:errors path="item_state" cssClass="error-msg" />
+								</div>
+	                		</div>
+							</div>
+							<div class="col-lg-6">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12 os">
+							<div class="col-lg-6">
+							<div class="form-group">
+								<label>상품상태</label>
+								<div class="form-block mes-cho">
+								   <meesig:radiobutton path="item_state" items="${addItem.itemState}" labelClass="radio-inline"/>
 									<form:errors path="item_state" cssClass="error-msg" />
 								</div>
 	                		</div>
@@ -306,7 +353,7 @@
                 	</div>
                 	<div class="pop-conts">
                 		<h4><label  class="col-lg-10">상품 이미지</label></h4>
-                		<form method="POST" enctype="multipart/form-data" action="" role="form" class="form-horizontal" id="">
+                		<form method="POST" enctype="multipart/form-data" action="/media/photoUpload" role="form" class="form-horizontal" id="form-img-upload">
                 			 <div class="form-group">
                 			 	<label class="col-lg-3 control-label">이미지</label>
                 			 	<div class="col-lg-7">
@@ -336,6 +383,7 @@
 <content tag="local_script">
 	<!-- 	<script src="/js/tinymce/tinymce.min.js"></script>
 			<script src="/js/tinymce.init.js"></script>
+			<script src="/js/meesig.admin.js"></script>
 			<script src="/js/item.choice.js"></script>
 		-->
 </content>

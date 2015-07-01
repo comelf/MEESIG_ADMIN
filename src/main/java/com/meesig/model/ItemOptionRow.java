@@ -5,15 +5,15 @@ import lombok.Data;
 @Data
 public class ItemOptionRow {
 	private int idx;
-	private int price;
+	private long price;
 	private String description;
 
 	public ItemOptionRow(){
 	}
 	
-	public ItemOptionRow(int idx, int pri, String des) {
+	public ItemOptionRow(int idx, long pri, String des) {
 		this.idx = idx;
-		this.price = Integer.valueOf(pri);
+		this.price = pri;
 		this.description = des;
 	}
 

@@ -19,6 +19,7 @@ public class ShippingPrice {
 	}
 
 	public void addPrice(int index, int price, String desc) {
+		
 		PriceOption po = new PriceOption(index,price, desc);
 		this.price_options.add(po);
 
@@ -29,6 +30,9 @@ public class ShippingPrice {
 		int len = pri.length;
 		
 		for (int i = 0; i < len; i++) {
+			if(pri[i].isEmpty()||des[i].isEmpty()){
+				continue;
+			}
 			addPrice(i, Integer.valueOf(pri[i]), des[i]);
 		}
 		

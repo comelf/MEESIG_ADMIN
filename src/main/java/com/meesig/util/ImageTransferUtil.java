@@ -19,14 +19,14 @@ public class ImageTransferUtil {
 	private static final int ORIGIN_QUALITY = 0;
 	List<File> files = new ArrayList<File>();
 	int type;
-	int[] 	sizes = { 560, 400, 320, 240, 160, 80};
-	int[] quality = { 1,   2,   3,   4,   5,   6 };
+	int[] 	sizes = { 800, 560, 400, 320, 240, 160, 80 };
+	int[] quality = {  1,   2,   3,   4,   5,   6,   7 };
 	
 	public ImageTransferUtil() {
 	}
 
 	public void save(MultipartFile file, PhotoInfo pi) throws IllegalStateException, IOException {		
-		File origin = new File(pi.getFullPathWithInt(ORIGIN_QUALITY));
+		File origin = new File(pi.getSavePathWithQuality(ORIGIN_QUALITY));
 		file.transferTo(origin);
 		files.add(origin);
 		
@@ -39,7 +39,7 @@ public class ImageTransferUtil {
 			BufferedImage bi = Scalr.resize(originalImg, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.FIT_TO_WIDTH, sizes[i],Scalr.OP_ANTIALIAS);
 			
 			if(bi!=null){
-				File resize = new File(pi.getFullPathWithInt(quality[i]));
+				File resize = new File(pi.getSavePathWithQuality(quality[i]));
 				ImageIO.write(bi, pi.getFileExt(), resize);
 				files.add(resize);
 			}
@@ -53,6 +53,12 @@ public class ImageTransferUtil {
 			File file = (File) f.next();
 			file.delete();
 		}
+	}
+
+	public void saveOne(MultipartFile file, PhotoInfo pi) throws IllegalStateException, IOException {
+		File origin = new File(pi.getSavePathWithQuality(ORIGIN_QUALITY));
+		file.transferTo(origin);
+		files.add(origin);
 	}
 
 }

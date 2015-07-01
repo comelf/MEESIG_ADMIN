@@ -15,12 +15,13 @@
 
 	<mvc:annotation-driven />
 
-	<mvc:resources location="/WEB-INF/images/" mapping="/images/**" />
+	<mvc:resources location="/images/" mapping="/images/**" />
 	<mvc:resources location="/WEB-INF/css/" mapping="/css/**/" />
 	<mvc:resources location="/WEB-INF/js/" mapping="/js/**" />
 	<mvc:resources location="/WEB-INF/fonts/" mapping="/fonts/**" />
 	<mvc:resources location="/WEB-INF/editor/" mapping="/editor/**" />
-	<mvc:resources location="/WEB-INF/images/" mapping="/images/**" />
+	<mvc:resources location="/WEB-INF/img/" mapping="/img/**" />
+
 
 
 	<bean id="viewResolver"
@@ -30,7 +31,10 @@
 	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver"
 		  p:order="1" />
 
-	<bean name="excelFile" class="core.util.ExcelFileView" />
+	<bean name="excelFileForAll" class="core.util.ExcelFileViewForAll" />
+	<bean name="excelFileForJoongang" class="core.util.ExcelFileViewForJoongang" />
+	
+
 
 	<bean id="jsonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
@@ -44,5 +48,5 @@
 	<bean id="messageSource"
 		  class="org.springframework.context.support.ReloadableResourceBundleMessageSource" 
 		  p:basename="/WEB-INF/messages" />
-
+	
 </beans>

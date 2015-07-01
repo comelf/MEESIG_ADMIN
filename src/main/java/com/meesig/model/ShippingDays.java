@@ -1,7 +1,9 @@
 package com.meesig.model;
 
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -74,7 +76,27 @@ public class ShippingDays {
 	}
 
 	public void setDay_send_time_string(String time) {
-		this.day_send_time = Time.valueOf(time + ":00");
+		if(time.length() < 6){
+			this.day_send_time = Time.valueOf(time + ":00");
+		}else{
+			this.day_send_time = Time.valueOf(time);
+		}
+		
+		
+	}
+
+
+	public String[] getDays() {
+		List<String> dayList = new ArrayList<String>();
+		if(day_mon){dayList.add("1");}
+		if(day_tue){dayList.add("2");}
+		if(day_wed){dayList.add("3");}
+		if(day_thu){dayList.add("4");}
+		if(day_fri){dayList.add("5");}
+		if(day_sat){dayList.add("6");}
+		if(day_sun){dayList.add("7");}
+		
+		return dayList.toArray(new String[0]);
 	}
 
 }

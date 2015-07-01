@@ -1,6 +1,8 @@
 package com.meesig.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.validation.constraints.Pattern;
 
@@ -9,6 +11,9 @@ import lombok.Data;
 import org.apache.ibatis.type.Alias;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Range;
+
+import com.meesig.support.state.ShippingDayState;
+import com.meesig.util.ShippingDayUtil;
 
 @Alias("item")
 @Data
@@ -39,17 +44,37 @@ public class Item {
 	private String item_origin;
 	private String item_shipping;
 
+	private boolean item_is_new;
+	private boolean item_is_sale;
+	private boolean item_is_sell;
+	private boolean item_has_option;
+	
 	@Range(min = 1, max = 10)
 	private int item_shipping_day_state;
 	@Range(min = 1, max = 10)
 	private int item_shipping_price_state;
-	@Range(min = 1, max = 10)
-	private int item_option_state;
 	@Range(min = 0, max = 10)
 	private int item_state;
 
+	private String item_tag;
+	
+	private ShippingDays shippingDays;
+	private List<Date> sDays;
+	
 	public Item() {
 
 	}
 
+		
+	public  void menuShippingDayConvert() {
+		sDays = new ArrayList<Date>();
+		ShippingDayUtil dayUtil = new ShippingDayUtil(shippingDays);
+		if(this.item_shipping_day_state == ShippingDayState.ONE_DAY_DELIVERY){
+			sDays = dayUtil.makeOneDayDeliveryForAdmin();
+		}else if(this.item_shipping_day_state == ShippingDayState.TWO_DAY_DELIVERY){
+			sDays = dayUtil.makeTwoDayDeliveryForAdmin();
+		}else if(this.item_shipping_day_state == ShippingDayState.SPECIFY_DAY_DELIVERY){
+			sDays.add(dayUtil.getSendDay());
+		}
+	}
 }

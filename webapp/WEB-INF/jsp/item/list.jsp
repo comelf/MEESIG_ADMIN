@@ -85,7 +85,7 @@
 														<td>${row.category_name}</td>
 														<td>${row.item_name}</td>
 														<td>${row.item_sell_price}</td>
-														<td>${row.item_option_state}</td>
+														<td>${row.item_state}</td>
 														<td>${row.shop_name}</td>
 														<td>${row.location_name}</td>
 													</tr>

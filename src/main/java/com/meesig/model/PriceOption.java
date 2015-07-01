@@ -11,6 +11,10 @@ public class PriceOption {
 	private int price;
 	private String desc;
 
+	public PriceOption(){
+		
+	}
+	
 	public PriceOption(int index, int price, String desc) {
 		this.index = index;
 		this.price = price;
