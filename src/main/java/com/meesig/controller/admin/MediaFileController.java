@@ -41,9 +41,18 @@ public class MediaFileController {
 
 	@RequestMapping(value="/originPhotoUpload", method=RequestMethod.POST)
 	@ResponseBody
-	public UploadResult originPhotoFileUploader(@RequestParam("file")MultipartFile file, @RequestParam String des,
+	public UploadResult originPhotoFileUploader(@RequestParam("file")MultipartFile file, @RequestParam("des") String des,
 			HttpServletRequest request) {
 		UploadResult result = fileManager.saveOne(file, des);		
+		return result;
+		
+	}
+	
+	@RequestMapping(value="/menuPhotoUpload", method=RequestMethod.POST)
+	@ResponseBody
+	public UploadResult menuPhotoFileUploader(@RequestParam("file")MultipartFile file, @RequestParam("alt") String des,
+			HttpServletRequest request) {
+		UploadResult result = fileManager.saveOne(file, des);
 		return result;
 		
 	}
