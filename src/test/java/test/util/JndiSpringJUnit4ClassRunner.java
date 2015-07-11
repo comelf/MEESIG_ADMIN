@@ -30,7 +30,7 @@ public class JndiSpringJUnit4ClassRunner extends SpringJUnit4ClassRunner {
 		
 		MysqlConnectionPoolDataSource ds = new MysqlConnectionPoolDataSource();
 		
-		ds.setUrl("jdbc:mysql://localhost:3306/MEESIG");
+		ds.setUrl("jdbc:mysql://10.14.57.130:3306/MEESIG");
         ds.setUser("meesig");
         ds.setPassword("M@eS1g$2*Wow!");
 		
