@@ -29,11 +29,11 @@ public class MediaFileController {
 	public UploadResult photoFileUploader(@RequestParam("file")MultipartFile file, @RequestParam String des,
 			HttpServletRequest request) {
 //		//로컬용
-		String savePath = request.getSession().getServletContext().getRealPath("/WEB-INF/images");
-		UploadResult result = fileManager.readAndSave(file,des,savePath);
+//		String savePath = request.getSession().getServletContext().getRealPath("/WEB-INF/images");
+//		UploadResult result = fileManager.readAndSave(file,des,savePath);
 		
 //		//서버용
-//		UploadResult result = fileManager.readAndSave(file, des);
+		UploadResult result = fileManager.readAndSave(file, des);
 		
 		return result;
 		
