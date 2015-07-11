@@ -51,6 +51,11 @@ public class ExcelFileViewForJoongang extends AbstractExcelView {
 		row.createCell(5).setCellValue("옵션");
 		row.createCell(6).setCellValue("개수");
 		row.createCell(7).setCellValue("요청사항");
+		
+		row.createCell(10).setCellValue("");
+		row.createCell(11).setCellValue("10. Bundle ID");
+		row.createCell(12).setCellValue("11. 배송업체명");
+		row.createCell(13).setCellValue("12. 운송장");
 
 		Date today = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yy.MM.dd");
@@ -71,10 +76,11 @@ public class ExcelFileViewForJoongang extends AbstractExcelView {
 					row.createCell(2).setCellValue(delivery.getDelivery_phone());
 					row.createCell(3).setCellValue(delivery.getDelivery_pcode());
 					row.createCell(4).setCellValue(delivery.getDelivery_addr1() +" "+ delivery.getDelivery_addr2());
+					row.createCell(7).setCellValue(delivery.getDelivery_des());
 				}
 				row.createCell(5).setCellValue(menu.getOm_option());
 				row.createCell(6).setCellValue(menu.getOm_item_count());
-				row.createCell(7).setCellValue(delivery.getDelivery_des());
+				row.createCell(11).setCellValue(bundle.getBundle_id());
 			}
 
 			

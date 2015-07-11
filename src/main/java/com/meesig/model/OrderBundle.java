@@ -7,7 +7,7 @@ import lombok.Data;
 
 import org.apache.ibatis.type.Alias;
 
-import com.meesig.util.BundleState;
+import com.meesig.support.state.BundleState;
 import com.meesig.util.ConvertUtil;
 
 @Alias("orderBundle")
@@ -27,6 +27,7 @@ public class OrderBundle {
 	private Date bundle_recive_date;
 	
 	
+	private BundleDelivery shipping;
 	private OrderDelivery delivery;
 	private List<OrderMenu> orderMenus;
 	

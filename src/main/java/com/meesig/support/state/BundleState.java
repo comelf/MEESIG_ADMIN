@@ -1,4 +1,4 @@
-package com.meesig.util;
+package com.meesig.support.state;
 
 public class BundleState {
 

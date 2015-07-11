@@ -51,7 +51,7 @@
 													<th>id</th>
 													<th>상점명</th>
 													<th>날짜</th>
-													<th>출력</th>
+													<th>엑셀 출력</th>
 													<th>발주</th>
 												</tr>
 											</thead>
@@ -74,7 +74,7 @@
 															</td>
 															<td>
 																<c:if test="${not empty shop.sumOfDays}">
-																<form action="/order/excel/order">
+																<form action="/order/excel/delivery">
 																<input name="shop" class="shop-id hidden" readonly="readonly" value="${shop.shop_id}">
 																<input name="date" class="input-date hidden" readonly="readonly" value="">
 																<input type="button" class="btn btn-primary outbutton" value="출력">
@@ -83,10 +83,12 @@
 															</td>
 															<td>
 																<c:if test="${not empty shop.sumOfDays}">
-																<form action="/order/update/process">
-																<input name="shop" class="shop-id hidden" readonly="readonly" value="${shop.shop_id}">
-																<input name="date" class="input-date hidden" readonly="readonly" value="">
-																<input type="button" class="btn btn-danger processbutton" value="발주">
+																<form class="form-inline" action="/order/update/delivery" method="post" enctype="multipart/form-data">
+																	<div class="form-group">
+																		<input name="shop" class="shop-id hidden" readonly="readonly" value="${shop.shop_id}">
+																		<input name="file" class="form-control input-date " type="file">
+																		<input type="submit" class="btn btn-danger deliverybutton" value="전송">
+																	</div>
 																</form>
 																</c:if>
 															</td>

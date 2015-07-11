@@ -7,10 +7,10 @@
              type="javax.sql.DataSource"
              description="Meesig Database"
              factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
-             maxActive="100"
-             minldle="10"
+             maxActive="30"
+             minldle="5"
              maxWait="10000"
-             initialSize="10"
+             initialSize="5"
              suspectTimeout="60"
              timeBetweenEvictionRunsMillis="30000"
              minEvictableIdleTimeMillis="60000"
@@ -21,7 +21,7 @@
              defaultAutoCommit="false"
              username="meesig"
              password="M@eS1g$2*Wow!"
-             url="jdbc:mysql://localhost:3306/MEESIG" />
+             url="jdbc:mysql://10.14.57.130:3306/MEESIG" />
              
 	<Resources className="org.apache.naming.resources.VirtualDirContext"
 			extraResourcePaths="/images=/media/images"/>

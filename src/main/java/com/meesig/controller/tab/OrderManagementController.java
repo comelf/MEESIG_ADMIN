@@ -1,11 +1,13 @@
 package com.meesig.controller.tab;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +17,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.meesig.model.BundleDelivery;
 import com.meesig.model.MenuOrderInfo;
 import com.meesig.model.OrderBundle;
 import com.meesig.model.OrderForList;
 import com.meesig.model.Orders;
-import com.meesig.model.Shop;
 import com.meesig.model.ShopOrders;
+import com.meesig.service.FileManager;
 import com.meesig.service.ItemService;
 import com.meesig.service.OrderService;
 import com.meesig.util.Paging;
@@ -37,6 +41,9 @@ public class OrderManagementController {
     
     @Autowired
     ItemService itemService;
+    
+	@Autowired
+	FileManager fileManager;
     
     @RequestMapping("/list")
      public String adminOrderList(@RequestParam(defaultValue="1", required=false) int page, 
@@ -89,12 +96,17 @@ public class OrderManagementController {
     
     @RequestMapping("/output")
 	public String adminOrderOutput(Model model) {
-    	List<ShopOrders> shopOrders = orderService.selectAllShopItems();
-    	List<Date> outDays = orderService.getOutDays();
-    	model.addAttribute("outDays", outDays);
+    	List<ShopOrders> shopOrders = orderService.selectAllShopItemsForOutput();
     	model.addAttribute("shopOrders", shopOrders);
     	return "order/output";
     }
+    
+    @RequestMapping("/delivery")
+   	public String adminOrderDelivery(Model model) {
+       	List<ShopOrders> shopOrders = orderService.selectAllShopItemsForDelivery();
+       	model.addAttribute("shopOrders", shopOrders);
+       	return "order/delivery";
+       }
     
     @RequestMapping("/update/process")
     public String adminOrderUpdateProcess(@RequestParam("shop")int shopId,
@@ -108,21 +120,53 @@ public class OrderManagementController {
     		model.addAttribute("msg", "주문 상태 변경에 실패했습니다.");
     	}
     	
-    	List<ShopOrders> shopOrders = orderService.selectAllShopItems();
-    	List<Date> outDays = orderService.getOutDays();
-    	model.addAttribute("outDays", outDays);
+    	List<ShopOrders> shopOrders = orderService.selectAllShopItemsForOutput();
     	model.addAttribute("shopOrders", shopOrders);
     	return "order/output";
     }
     
-	@RequestMapping("/excel")
-	public ModelAndView excel(@RequestParam("shop")int shopId,
+    
+    @RequestMapping("/update/delivery")
+    public String adminOrderUpdateDelivery(@RequestParam("shop")int shopId,
+    									  @RequestParam("file")MultipartFile file, Model model) {
+    	
+    	try{
+    		File eFile = fileManager.save(file);
+    		List<BundleDelivery> deliveryList = fileManager.readExcelFile(eFile);
+    		orderService.updateBundelStateAndDelivery(deliveryList);
+    		model.addAttribute("msg", "해당 주문의 상태를 배송중으로 변경했습니다.");
+    	}catch(Exception e){
+    		model.addAttribute("msg", "주문 상태 변경에 실패했습니다.");
+    	}
+    	
+    	
+    	List<ShopOrders> shopOrders = orderService.selectAllShopItemsForDelivery();
+       	model.addAttribute("shopOrders", shopOrders);
+       	return "order/delivery";
+    }
+    
+    @RequestMapping("/excel/delivery")
+	public ModelAndView excelForDelivery(@RequestParam("shop")int shopId,
+			  				  @RequestParam("date")String date, Model model) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd kk:mm:ss z yyyy", Locale.ENGLISH);
+		Date tDate = sdf.parse(date);
+		
+		List<OrderBundle> bundleList =  orderService.selectOrderBundleWithDeliveryForShipping(shopId, tDate);
+		if (shopId == 4) {
+			return new ModelAndView("excelFileForJoongang", "bundleList", bundleList);
+		} else {
+			return new ModelAndView("excelFileForAll", "bundleList", bundleList);
+		}
+	}
+    
+	@RequestMapping("/excel/order")
+	public ModelAndView excelForOrder(@RequestParam("shop")int shopId,
 			  				  @RequestParam("date")String date, Model model) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd kk:mm:ss z yyyy", Locale.ENGLISH);
 		Date tDate = sdf.parse(date);
 		
 		List<OrderBundle> bundleList =  orderService.selectOrderBundleWithDelivery(shopId, tDate);
-		if (shopId == 2) {
+		if (shopId == 4) {
 			return new ModelAndView("excelFileForJoongang", "bundleList", bundleList);
 		} else {
 			return new ModelAndView("excelFileForAll", "bundleList", bundleList);

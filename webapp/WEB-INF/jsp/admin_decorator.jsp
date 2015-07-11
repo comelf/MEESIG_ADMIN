@@ -133,10 +133,10 @@
 							<a href="/item/charge">포인트</a>
 						</li>-->
 						<li>
-							<a href="/order/delivery">배송관리</a>
+							<a href="/order/output">발주관리</a>
 						</li>
 						<li>
-							<a href="/order/output">내보내기</a>
+							<a href="/order/delivery">배송관리</a>
 						</li>
 					</ul>
 				</li>
@@ -144,16 +144,16 @@
 					<a href="javascript:;" data-toggle="collapse" data-target="#communicate"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> 커뮤니케이션 </a>
 					<ul id="communicate" class="collapse">
 						<li>
-							<a href="/item/list">상품 리뷰</a>
+							<a href="#">상품 리뷰</a>
 						</li>
 						<li>
-							<a href="/item/add">상품 QnA</a>
+							<a href="#">상품 QnA</a>
 						</li>
 						<li>
-							<a href="/item/charge">상점 QnA</a>
+							<a href="#">상점 QnA</a>
 						</li>
 						<li>
-							<a href="/item/category">고객 1:1</a>
+							<a href="#">고객 1:1</a>
 						</li>
 					</ul>
 				</li>
@@ -175,10 +175,10 @@
 					<a href="javascript:;" data-toggle="collapse" data-target="#report"><span class="glyphicon glyphicon-signal" aria-hidden="true"></span> 보고서 </a>
 					<ul id="report" class="collapse">
 						<li>
-							<a href="/report/list">주문 보고서</a>
+							<a href="#">주문 보고서</a>
 						</li>
 						<li>
-							<a href="/report/add">고객 보고서</a>
+							<a href="#">고객 보고서</a>
 						</li>
 
 					</ul>

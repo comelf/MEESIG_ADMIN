@@ -15,11 +15,14 @@ public class PhotoInfo {
 	private String savePath;
 	private String uuFileName;
 	private String fullPath;
-	private String uploadPath = "/media/images";
+	private String uploadPath;
 	private long fileSize;
-	private String requestPath = "http://localhost:8080/images/";
+	private String requestPath;
 
-	public PhotoInfo(String fileName, long size, String des) {
+	public PhotoInfo(String fileName, long size, String des, String uploaPath, String requstPath) {
+		this.uploadPath = uploaPath +"/images";
+		this.requestPath = requstPath;
+		
 		// 원본파일명
 		this.oriFileName = fileName;
 		// 파일확장자

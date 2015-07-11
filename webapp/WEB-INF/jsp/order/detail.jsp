@@ -56,7 +56,7 @@
 	                		</div>
 	                		<div class="form-group">
 								<label>주문상태</label>
-								<input class="form-control" value="${order.order_state}" disabled="disabled">
+								<input class="form-control" value="${order.convertOrderState}" disabled="disabled">
 	                		</div>
 	                	</div>
 	                	<div class="col-lg-6">
@@ -117,7 +117,17 @@
 												<td>${menu.om_option}</td>
 												<td>${menu.om_charge_shipping_price}</td>
 											</tr>
-											</c:forEach>	
+											</c:forEach>
+											<tr>
+												<td colspan="2">${bundle.convertedBundleState}</td>
+												<c:if test="${empty bundle.delivery}">
+													<td colspan="6">배송 정보 없음</td>
+												</c:if>
+												<c:if test="${not empty bundle.delivery}">
+													<td colspan="6">${bundle.delivery.delivery_name} :  ${bundle.delivery.delivery_code}</td>
+												</c:if>
+
+											</tr>	
 										</tbody>
 									
 									</table>
@@ -136,7 +146,32 @@
 						  <div class="panel-heading">배송지 정보</div>
 						  <div class="panel-body">
 						   <label>주문번호</label>
-								${order.delivery.delivery_name}
+						   		<div class="table-responsive">
+						   			<table class="table table-striped table-hover">
+										<tbody>
+											<tr>
+												<th>ID</th>
+												<td>${order.delivery.delivery_id}</td>
+												<th>받는사람</th>
+												<td>${order.delivery.delivery_name}</td>
+												<th>연락처</th>
+												<td>${order.delivery.delivery_phone}</td>
+											</tr>
+											<tr>
+												<th>우편번호</th>
+												<td>${order.delivery.delivery_pcode}</td>
+												<th>주소1</th>
+												<td>${order.delivery.delivery_addr1}</td>
+												<th>주소2</th>
+												<td>${order.delivery.delivery_addr2}</td>
+											</tr>
+											<tr>
+												<th>배송요청사항</th>
+												<td colspan="5">${order.delivery.delivery_des}</td>
+											</tr>
+										</tbody>
+									</table>
+						   		</div>
 						  </div>
 						</div>
 					</div>

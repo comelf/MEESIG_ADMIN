@@ -7,8 +7,8 @@ import lombok.Data;
 import org.apache.ibatis.type.Alias;
 
 @Data
-@Alias("bundel_delivery")
-public class Bundle_Delivery {
+@Alias("bundelDelivery")
+public class BundleDelivery {
 	private int delivery_id;
 	private long ORDER_bundle_id;
 	private Date delivery_date;
@@ -17,7 +17,7 @@ public class Bundle_Delivery {
 	private String delivery_name;
 	private String delivery_link;
 	
-	public Bundle_Delivery(){
+	public BundleDelivery(){
 		
 	}
 }

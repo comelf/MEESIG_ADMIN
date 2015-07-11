@@ -54,8 +54,12 @@ public class ExcelFileViewForAll extends AbstractExcelView {
 		row.createCell(6).setCellValue("6. 상품");
 		row.createCell(7).setCellValue("7. 수량");
 		row.createCell(8).setCellValue("8. Order ID");
-
 		row.createCell(9).setCellValue("9. 옵션");
+		
+		row.createCell(10).setCellValue("");
+		row.createCell(11).setCellValue("10. Bundle ID");
+		row.createCell(12).setCellValue("11. 배송업체명");
+		row.createCell(13).setCellValue("12. 운송장");
 
 		int rowNum = 1;
 		for (int i = 0; i < bundleList.size(); i++) {
@@ -79,6 +83,7 @@ public class ExcelFileViewForAll extends AbstractExcelView {
 				row.createCell(8).setCellValue(bundle.getOrders_order_id());
 
 				row.createCell(9).setCellValue(menu.getOm_option());
+				row.createCell(11).setCellValue(bundle.getBundle_id());
 			}
 
 			

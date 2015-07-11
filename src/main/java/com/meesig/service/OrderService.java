@@ -8,15 +8,18 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.meesig.mapper.OrderMapper;
-import com.meesig.model.Item;
+import com.meesig.model.BundleDelivery;
 import com.meesig.model.MenuOrderInfo;
 import com.meesig.model.OrderBundle;
 import com.meesig.model.OrderForList;
 import com.meesig.model.Orders;
-import com.meesig.model.Shop;
 import com.meesig.model.ShopOrders;
+import com.meesig.support.state.BundleState;
 import com.meesig.support.state.OrderState;
 
 @Service
@@ -78,8 +81,12 @@ public class OrderService {
 		return orderMapper.selectAllMenuInfoByState();
 	}
 
-	public List<ShopOrders> selectAllShopItems() {
-		return orderMapper.selectAllShopWithItems();
+	public List<ShopOrders> selectAllShopItemsForOutput() {
+		return orderMapper.selectAllShopWithItemsForOutput();
+	}
+	
+	public List<ShopOrders> selectAllShopItemsForDelivery() {
+		return orderMapper.selectAllShopWithItemsForDelivery();
 	}
 
 	public List<Date> getOutDays() {
@@ -96,12 +103,50 @@ public class OrderService {
 	}
 
 	public void updateOrderStateProcess(int shopId, Date date) {
-		orderMapper.updateOrderState(shopId, date, OrderState.PROCESSING);
+		orderMapper.updateOrderState(shopId, date, OrderState.SHOP_ORDER);
 	}
 
 	public List<OrderBundle> selectOrderBundleWithDelivery(int shopId,
 			Date date) {
 		return orderMapper.selectOrderBundleByShopIdAndDate(shopId, date);
+	}
+
+	public void updateBundelStateAndDelivery(List<BundleDelivery> deliveryList) {
+
+		DefaultTransactionDefinition dtd = new DefaultTransactionDefinition();
+		dtd.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+		TransactionStatus status = transactionManager.getTransaction(dtd);
+
+		try{
+			for(BundleDelivery bd : deliveryList){
+				BundleDelivery obd = orderMapper.selectBundleDeliveryByBundelId(bd.getORDER_bundle_id());
+				if(obd==null || obd.getDelivery_state() != bd.getDelivery_state()){
+					orderMapper.insertBundleDelivery(bd);
+				}else{
+					bd.setDelivery_id(obd.getDelivery_id());
+					orderMapper.updateBundleDelevery(bd);
+				}
+				
+				orderMapper.updateBundelStateDelivery(bd.getORDER_bundle_id());
+				List<OrderBundle> bundles = orderMapper.selectOrderBundleListByBundleId(bd.getORDER_bundle_id());
+				
+				int stateMin = BundleState.SHIPPED;
+				for(OrderBundle bundle : bundles){
+					int bMin = bundle.getBundle_state();
+					stateMin = Math.min(stateMin, bMin);
+				}
+				orderMapper.updateOrderStateByBundleId(bd.getORDER_bundle_id(), stateMin);
+			}
+		} catch (Exception e) {
+			transactionManager.rollback(status);
+		}
+		
+		transactionManager.commit(status);
+	}
+
+	public List<OrderBundle> selectOrderBundleWithDeliveryForShipping(
+			int shopId, Date date) {
+		return orderMapper.selectOrderBundleByShopIdAndDateAndState(shopId, date, BundleState.SHOP_ORDER);
 	}
 	
 }
