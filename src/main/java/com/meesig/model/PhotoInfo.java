@@ -21,7 +21,7 @@ public class PhotoInfo {
 
 	public PhotoInfo(String fileName, long size, String des, String uploaPath, String requstPath) {
 		this.uploadPath = uploaPath +"/images";
-		this.requestPath = requstPath;
+		this.requestPath = requstPath +"/images";
 		
 		// 원본파일명
 		this.oriFileName = fileName;
