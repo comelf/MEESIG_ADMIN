@@ -37,7 +37,7 @@ public class FileManager {
 	Environment env;
 	
 	public UploadResult readAndSave(MultipartFile file, String des) {
-		PhotoInfo pi = new PhotoInfo(file.getOriginalFilename(), file.getSize(), des, env.getRequiredProperty("meesig.file.path"), env.getRequiredProperty("meesig.hostname"));
+		PhotoInfo pi = new PhotoInfo(file.getOriginalFilename(), file.getSize(), des, env.getRequiredProperty("meesig.file.path"), env.getRequiredProperty("meesig.hostname")+"/images");
 		
 		ImageTransferUtil itu = new ImageTransferUtil();
 		
