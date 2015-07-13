@@ -3,6 +3,6 @@
 <properties>
 	<comment>application-properties</comment>
 	
-   	<entry key="meesig.hostname">http://125.209.197.54:9000/</entry>
+   	<entry key="meesig.hostname">https://www.meesig.com/</entry>
    	<entry key="meesig.file.path">/media</entry>
 </properties>
